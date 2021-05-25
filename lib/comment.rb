@@ -1,13 +1,10 @@
 module Comment
   class Comment
     class << self
-      def check_comment(comment)
-       # CommentHandler.check_whitespace(comment)
-        begin
-          CommentHandler.check_whitespace(comment)
-        rescue CommentHandler::NoWhitespaceError => e
-          puts e.message
-        end
+      def check_comment(comment, file_line)
+        CommentHandler.check_whitespace(comment)
+      rescue CommentHandler::NoWhitespaceError => e
+        puts "Error at line #{file_line}: #{e.message}"
       end
     end
   end
@@ -15,7 +12,7 @@ module Comment
   class CommentHandler
     class NoWhitespaceError < StandardError
       def message
-        'No whitespace detected on comment'
+        'Missing whitespace after #'
       end
     end
 
