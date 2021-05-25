@@ -12,7 +12,7 @@ module Comment
   class CommentHandler
     class NoWhitespaceError < StandardError
       def message
-        'Missing whitespace after #'
+        'Missing whitespace after #.'
       end
     end
 
