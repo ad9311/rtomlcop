@@ -1,44 +1,52 @@
+require_relative '../lib/ultis'
+
 module Key
   class KeyString
     class << self
-      def check_string(key_string, file_line)
-        KeyStringHandler.unclosed(key_string)
+      def closed?(toml_file)
+        KeyStringHandler.unclosed?(toml_file)
       rescue KeyStringHandler::UnclosedStringError => e
-        puts "Error at line #{file_line}: #{e.message}"
-      end
-    end
-  end
-
-  class KeyStringHandler
-    class UnclosedStringError < StandardError
-      def message
-        'Unclosed string.'
+        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        toml_file.new_error
       end
     end
 
-    def self.closed_string(key_string)
-      raise UnclosedStringError unless key_string.split('*').all?(/[a-z0-9]+[\s=]+["]+.+["]$/)
+    class KeyStringHandler
+      @rgx_unclosed = Utils::DetectError.unclosed_string
+
+      class UnclosedStringError < StandardError
+        def message
+          'Unclosed string.'
+        end
+      end
+
+      def self.unclosed?(toml_file)
+        raise UnclosedStringError unless toml_file.line_arr.all?(@rgx_unclosed)
+      end
     end
   end
 
   class KeyInt
     class << self
-      def check_int(key_int, file_line)
-        KeyIntHandler.zero_padding(key_int)
+      def padding?(toml_file)
+        KeyIntHandler.zero_padding(toml_file)
       rescue KeyIntHandler::ZeroPaddedInteger => e
-        puts "Error at line #{file_line}: #{e.message}"
-      end 
+        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        toml_file.new_error
+      end
     end
 
     class KeyIntHandler
+      @rgx_padded = Utils::DetectError.padded_int
+
       class ZeroPaddedInteger < StandardError
         def message
           'Zero padding integer.'
         end
       end
 
-      def self.zero_padding(key_int)
-        raise ZeroPaddedInteger if key_int.split('*').all?(/.+[=][\s]+[0]+[0-9]+/)
+      def self.zero_padding(toml_file)
+        raise ZeroPaddedInteger if toml_file.line_arr.all?(@rgx_padded)
       end
     end
   end
