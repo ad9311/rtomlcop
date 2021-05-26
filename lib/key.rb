@@ -53,7 +53,7 @@ module Key
       end
 
       def self.zero_padding(toml_file)
-        raise ZeroPaddingError if toml_file.line_arr.all?(@rgx_padded)
+        raise ZeroPaddingError if @rgx_padded.match(toml_file.line)
       end
 
       class InvalidIntError < ArgumentError

@@ -1,12 +1,13 @@
 module Toml
   class File
-    attr_reader :line_number, :line, :line_arr, :doc_arr, :error_amount
+    attr_reader :line_number, :line, :line_arr, :error_amount
+    attr_accessor :line_value
 
     def initialize
       @line_number = 1
       @line = nil
       @line_arr = []
-      @doc_arr = []
+      @line_value = nil
       @error_amount = 0
     end
 
@@ -16,10 +17,7 @@ module Toml
 
     def line_to_arr(line)
       @line = line
-      @line_arr = []
       @line_arr << line
-      @doc_arr << @line_arr
-      @doc_arr
     end
 
     def new_error

@@ -3,17 +3,16 @@ module Utils
     @numeric_type = %w[int float date_time].freeze
     class << self
       def get_value(toml_file)
-        buffer = nil
         type = nil
         toml_file.line.split(/.+=\s*/) do |c|
-          buffer = c
+          toml_file.line_value = c
         end
 
-        if !/[xX:]/.match?(buffer) && /[eE.]/.match?(buffer)
+        if !/[xX:]/.match?(toml_file.line_value) && /[eE.]/.match?(toml_file.line_value)
           type = @numeric_type[1]
-        elsif !buffer.include?(':')
+        elsif !toml_file.line_value.include?(':')
           type = @numeric_type[0]
-        elsif buffer[4] == '-' || buffer[2] == ':'
+        elsif toml_file.line_value[4] == '-' || toml_file.line_value[2] == ':'
           type = @numeric_type[2]
         end
         type
@@ -62,13 +61,9 @@ module Utils
 
   class Value
     @invalid_value = Regexp.new(/.+=\s*/)
-    @buffer = nil
     class << self
       def invalid_int(toml_file)
-        toml_file.line.split(@invalid_value) do |c|
-          @buffer = c
-        end
-        Integer(@buffer)
+        Integer(toml_file.line_value)
       rescue ArgumentError => e
         e
       end
