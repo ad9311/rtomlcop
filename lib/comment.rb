@@ -1,4 +1,5 @@
 require_relative '../lib/utils'
+require_relative '../lib/message'
 
 module Comment
   class Oneline
@@ -7,7 +8,7 @@ module Comment
         CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
         toml_file.new_error
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        Message::Error.display_error(toml_file, e.message)
       end
     end
 
@@ -20,7 +21,7 @@ module Comment
       end
 
       def self.check_whitespace(toml_file)
-        raise NoWhitespaceError if toml_file.line_arr.all?(@rgx_no_ws)
+        raise NoWhitespaceError if @rgx_no_ws.match?(toml_file.line)
       end
     end
   end

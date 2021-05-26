@@ -1,4 +1,5 @@
 require_relative '../lib/utils'
+require_relative '../lib/message'
 
 module Key
   class KeyString
@@ -7,7 +8,7 @@ module Key
         KeyStringHandler.unclosed?(toml_file)
       rescue KeyStringHandler::UnclosedStringError => e
         toml_file.new_error
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        Message::Error.display_error(toml_file, e.message)
       end
     end
 
@@ -21,7 +22,7 @@ module Key
       end
 
       def self.unclosed?(toml_file)
-        raise UnclosedStringError unless toml_file.line_arr.all?(@rgx_unclosed)
+        raise UnclosedStringError unless @rgx_unclosed.match?(toml_file.line)
       end
     end
   end
@@ -33,10 +34,10 @@ module Key
         KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::ZeroPaddingError => e
         toml_file.new_error
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        Message::Error.display_error(toml_file, e.message, toml_file.line_value[0])
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        Message::Error.display_error(toml_file, e.message)
       end
 
       # def valid_value?(toml_file)
