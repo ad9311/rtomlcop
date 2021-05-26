@@ -1,12 +1,14 @@
 module TomlFile
   class TomlLine
     attr_reader :line_number, :line, :line_arr, :doc_arr, :error_amount
+    attr_accessor :no_comment
 
     def initialize
       @line_number = 1
       @line = nil
       @line_arr = []
       @doc_arr = []
+      @no_comment = true
       @error_amount = 0
     end
 

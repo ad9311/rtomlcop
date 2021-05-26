@@ -1,3 +1,5 @@
+require_relative '../lib/ultis'
+
 module Comment
   class Oneline
     class << self
@@ -10,6 +12,7 @@ module Comment
     end
 
     class CommentHandler
+      @rgx_no_ws = Utils::DetectError.no_white_space
       class NoWhitespaceError < StandardError
         def message
           'Missing whitespace after #.'
@@ -17,7 +20,7 @@ module Comment
       end
 
       def self.check_whitespace(toml_file)
-        raise NoWhitespaceError unless toml_file.line[0] == '#' && toml_file.line[1] == ' '
+        raise NoWhitespaceError if toml_file.line_arr.all?(@rgx_no_ws)
       end
     end
   end

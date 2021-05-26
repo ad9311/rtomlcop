@@ -1,9 +1,8 @@
 module Utils
   class DetectElement
-    # attr_reader :value_is_string, :is_comment
     @is_comment = Regexp.new('^(\s+|)#.+.')
     @is_string = Regexp.new('[a-z0-9]+[\s=]+"+.+')
-    @is_int = Regexp.new('.+=\s+[0-9]+')
+    @is_int = Regexp.new('.+=\s*[.+\-0-9]+')
 
     class << self
       def detect_comment
@@ -21,9 +20,14 @@ module Utils
   end
 
   class DetectError
+    @no_ws = Regexp.new('\s*#[^\s].+')
     @unclosed = Regexp.new('[a-z0-9]+[\s=]+"+.+"$')
     @padded = Regexp.new('.+=\s+0+[0-9]+')
     class << self
+      def no_white_space
+        @no_ws
+      end
+
       def unclosed_string
         @unclosed
       end
@@ -35,7 +39,7 @@ module Utils
   end
 
   class DetectValue
-    @invalid_value = Regexp.new(/.+=\s+/)
+    @invalid_value = Regexp.new(/.+=\s*/)
     @buffer = nil
     class << self
       def invalid_int(toml_file)
