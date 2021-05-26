@@ -1,4 +1,4 @@
-require_relative '../lib/ultis'
+require_relative '../lib/utils'
 
 module Comment
   class Oneline
@@ -12,7 +12,7 @@ module Comment
     end
 
     class CommentHandler
-      @rgx_no_ws = Utils::DetectError.no_white_space
+      @rgx_no_ws = Utils::Error.no_white_space
       class NoWhitespaceError < StandardError
         def message
           'Missing whitespace after #.'

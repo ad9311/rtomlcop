@@ -2,31 +2,28 @@
 
 require_relative '../lib/toml_file'
 require_relative '../lib/line'
-require_relative '../lib/ultis'
+require_relative '../lib/utils'
+require_relative '../lib/flag'
 
 DIR = Dir.pwd
 ALL_FILES = Dir.glob('*.toml')
 
-toml_file = TomlFile::TomlLine.new
+toml_file = Toml::File.new
+# flag = Flag::Hold.new
 
-rgx_comment = Utils::DetectElement.detect_comment
-rgx_string = Utils::DetectElement.detect_string
-rgx_int = Utils::DetectElement.detect_int
+rgx_comment = Utils::Element.detect_comment
+rgx_string = Utils::Element.detect_string
+rgx_num = Utils::Element.detect_numeric
 
 puts "Checking for errors...\n\n"
 
 File.foreach("#{DIR}/#{ALL_FILES[0]}") do |line|
   toml_file.line_to_arr(line)
 
-  if toml_file.line_arr.all?(rgx_comment)
-    toml_file.no_comment = false
-    Line::Check.comment?(toml_file)
-  end
+  Line::Check.comment?(toml_file) if rgx_comment.match?(line)
+  Line::Check.string?(toml_file) if rgx_string.match?(line)
+  Line::Check.numeric?(toml_file) if rgx_num.match?(line)
 
-  Line::Check.string?(toml_file) if toml_file.line_arr.all?(rgx_string) && toml_file.no_comment
-  Line::Check.int?(toml_file) if toml_file.line_arr.all?(rgx_int) && toml_file.no_comment
-
-  toml_file.no_comment = true
   toml_file.next_line
 end
 

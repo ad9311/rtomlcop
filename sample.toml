@@ -1,11 +1,8 @@
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-# Good Comment
-
+flt1 = +1.0
+flt2 = 3.1415
+flt3 = -0.01
+flt4 = 5e+22
+int = 0o7777779
+flt5 = 1e06234234545
+flt6 = -2E-2
+flt7 = 6.626e-34

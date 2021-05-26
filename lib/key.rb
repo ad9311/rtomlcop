@@ -1,4 +1,4 @@
-require_relative '../lib/ultis'
+require_relative '../lib/utils'
 
 module Key
   class KeyString
@@ -12,7 +12,7 @@ module Key
     end
 
     class KeyStringHandler
-      @rgx_unclosed = Utils::DetectError.unclosed_string
+      @rgx_unclosed = Utils::Error.unclosed_string
 
       class UnclosedStringError < StandardError
         def message
@@ -36,15 +36,15 @@ module Key
       end
 
       def valid_value?(toml_file)
-        KeyIntHandler.invalid_value(toml_file)
-      rescue KeyIntHandler::InvalidValueError => e
+        KeyIntHandler.invalid_int(toml_file)
+      rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
         puts "Error at line #{toml_file.line_number}: #{e.message}"
       end
     end
 
     class KeyIntHandler
-      @rgx_padded = Utils::DetectError.padded_int
+      @rgx_padded = Utils::Error.padded_int
 
       class ZeroPaddingError < StandardError
         def message
@@ -56,16 +56,29 @@ module Key
         raise ZeroPaddingError if toml_file.line_arr.all?(@rgx_padded)
       end
 
-      class InvalidValueError < ArgumentError
+      class InvalidIntError < ArgumentError
         def message
           'Invalid value for integer.'
         end
       end
 
-      def self.invalid_value(toml_file)
-        e = Utils::DetectValue.invalid_int(toml_file)
-        raise InvalidValueError if e.is_a?(ArgumentError)
+      def self.invalid_int(toml_file)
+        e = Utils::Value.invalid_int(toml_file)
+        raise InvalidIntError if e.is_a?(ArgumentError)
       end
     end
   end
+
+  # class KeyFloat
+  #   class InvalidFloatError < ArgumentError
+  #     def message
+  #       'Invalid value for float.'
+  #     end
+
+  #     def self.invalid_float(toml_file)
+  #       e = Utils::Value.invalid_int(toml_file)
+  #       raise InvalidFloatError if e.is_a?(ArgumentError)
+  #     end
+  #   end
+  # end
 end
