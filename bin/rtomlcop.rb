@@ -11,9 +11,9 @@ toml_file = TomlFile::TomlLine.new
 
 File.foreach("#{DIR}/#{ALL_FILES[0]}") do |line|
   toml_file.line_to_arr(line)
-  Line::Check.comment?(toml_file, line)
-  Line::Check.string?(toml_file, line)
-  Line::Check.int?(toml_file, line)
+  # Line::Check.comment?(toml_file)
+  # Line::Check.string?(toml_file)
+  Line::Check.int?(toml_file)
   toml_file.next_line
 end
 

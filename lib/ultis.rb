@@ -33,4 +33,19 @@ module Utils
       end
     end
   end
+
+  class DetectValue
+    @invalid_value = Regexp.new(/.+=\s+/)
+    @buffer = nil
+    class << self
+      def invalid_int(toml_file)
+        toml_file.line.split(@invalid_value) do |c|
+          @buffer = c
+        end
+        Integer(@buffer)
+      rescue ArgumentError => e
+        e
+      end
+    end
+  end
 end

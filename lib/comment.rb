@@ -1,11 +1,11 @@
 module Comment
   class Oneline
     class << self
-      def space?(toml_file, comment)
-        CommentHandler.check_whitespace(comment)
+      def space?(toml_file)
+        CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
         toml_file.new_error
+        puts "Error at line #{toml_file.line_number}: #{e.message}"
       end
     end
 
@@ -16,8 +16,8 @@ module Comment
         end
       end
 
-      def self.check_whitespace(comment)
-        raise NoWhitespaceError unless comment[0] == '#' && comment[1] == ' '
+      def self.check_whitespace(toml_file)
+        raise NoWhitespaceError unless toml_file.line[0] == '#' && toml_file.line[1] == ' '
       end
     end
   end
