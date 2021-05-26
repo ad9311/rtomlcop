@@ -28,23 +28,34 @@ module Key
 
   class KeyInt
     class << self
-      def padding?(toml_file)
+      def valid?(toml_file)
         KeyIntHandler.zero_padding(toml_file)
+        KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::ZeroPaddingError => e
         toml_file.new_error
         puts "Error at line #{toml_file.line_number}: #{e.message}"
-      end
-
-      def valid_value?(toml_file)
-        KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
         puts "Error at line #{toml_file.line_number}: #{e.message}"
       end
+
+      # def valid_value?(toml_file)
+      #   KeyIntHandler.invalid_int(toml_file)
+      # rescue KeyIntHandler::InvalidIntError => e
+      #   toml_file.new_error
+      #   puts "Error at line #{toml_file.line_number}: #{e.message}"
+      # end
     end
 
     class KeyIntHandler
-      @rgx_padded = Utils::Error.padded_int
+      def self.zero_padding(toml_file)
+        raise ZeroPaddingError if Utils::Error.padded_int(toml_file)
+      end
+
+      def self.invalid_int(toml_file)
+        e = Utils::Value.invalid_int(toml_file)
+        raise InvalidIntError if e.is_a?(ArgumentError)
+      end
 
       class ZeroPaddingError < StandardError
         def message
@@ -52,33 +63,32 @@ module Key
         end
       end
 
-      def self.zero_padding(toml_file)
-        raise ZeroPaddingError if @rgx_padded.match(toml_file.line)
-      end
-
       class InvalidIntError < ArgumentError
         def message
           'Invalid value for integer.'
         end
       end
-
-      def self.invalid_int(toml_file)
-        e = Utils::Value.invalid_int(toml_file)
-        raise InvalidIntError if e.is_a?(ArgumentError)
-      end
     end
   end
 
-  # class KeyFloat
-  #   class InvalidFloatError < ArgumentError
-  #     def message
-  #       'Invalid value for float.'
-  #     end
+  class KeyFloat
+    class << self
+      def valid?(toml_file)
+        KeyFloat.invalid_float(toml_file)
+      rescue KeyFloat::InvalidFloatError => e
+        toml_file.new_error
+        puts "Error at line #{toml_file.line_number}: #{e.message}"
+      end
+    end
+    def self.invalid_float(toml_file)
+      e = Utils::Value.invalid_float(toml_file)
+      raise InvalidFloatError if e.is_a?(ArgumentError)
+    end
 
-  #     def self.invalid_float(toml_file)
-  #       e = Utils::Value.invalid_int(toml_file)
-  #       raise InvalidFloatError if e.is_a?(ArgumentError)
-  #     end
-  #   end
-  # end
+    class InvalidFloatError < ArgumentError
+      def message
+        'Invalid value for float.'
+      end
+    end
+  end
 end

@@ -22,12 +22,12 @@ module Line
         value = Utils::Slice.get_value(toml_file)
         case value
         when 'float'
-          #puts 'float'
+          Key::KeyFloat.valid?(toml_file)
         when 'int'
-          Key::KeyInt.padding?(toml_file)
-          Key::KeyInt.valid_value?(toml_file)
+          Key::KeyInt.valid?(toml_file)
+          # Key::KeyInt.valid_value?(toml_file)
         when 'data_time'
-          #puts 'data_time'
+          # puts 'data_time'
         end
       end
     end

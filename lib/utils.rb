@@ -4,7 +4,7 @@ module Utils
     class << self
       def get_value(toml_file)
         type = nil
-        toml_file.line.split(/.+=\s*/) do |c|
+        toml_file.line.split(/.+=\s+/) do |c|
           toml_file.line_value = c
         end
 
@@ -23,7 +23,7 @@ module Utils
   class Element
     @is_comment = Regexp.new(/^(\s+|)#.+./)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
-    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=[\s+\-.]+[0-9]/)
+    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=[\s+\-.]?+[0-9\-+.]/)
 
     class << self
       def detect_comment
@@ -43,7 +43,6 @@ module Utils
   class Error
     @no_ws = Regexp.new('\s*#[^\s].+')
     @unclosed = Regexp.new('[a-z0-9]+[\s=]+"+.+"$')
-    @padded = Regexp.new('.+=\s+0+[0-9]+')
     class << self
       def no_white_space
         @no_ws
@@ -53,17 +52,24 @@ module Utils
         @unclosed
       end
 
-      def padded_int
-        @padded
+      def padded_int(toml_file)
+        zero = toml_file.line_value[0] == '0'
+        number = /[0-9]/.match?(toml_file.line_value[1])
+        zero && number
       end
     end
   end
 
   class Value
-    @invalid_value = Regexp.new(/.+=\s*/)
     class << self
       def invalid_int(toml_file)
         Integer(toml_file.line_value)
+      rescue ArgumentError => e
+        e
+      end
+
+      def invalid_float(toml_file)
+        Float(toml_file.line_value)
       rescue ArgumentError => e
         e
       end
