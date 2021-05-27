@@ -6,7 +6,7 @@ module Line
   class Check
     class << self
       # Check if comment has a space between # symbol
-      def comment?(toml_file)
+      def comment?(toml_file) 
         Utils::Slice.get_comment(toml_file)
         Comment::Oneline.space?(toml_file)
       end

@@ -16,7 +16,9 @@ module Comment
       @rgx_no_ws = Utils::Error.no_white_space
 
       def self.check_whitespace(toml_file)
-        raise NoWhitespaceError if toml_file.line[toml_file.value_arr[1] + 1] != ' '
+        unless toml_file.value_arr[1].nil?
+          raise NoWhitespaceError if toml_file.value_arr[1][0] != ' '
+        end
       end
 
       class NoWhitespaceError < StandardError
