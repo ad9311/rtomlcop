@@ -34,7 +34,7 @@ module Key
         KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::ZeroPaddingError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message, toml_file.line_value[0])
+        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
         Message::Error.display_error(toml_file, e.message)

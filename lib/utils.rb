@@ -26,12 +26,12 @@ module Utils
       def get_comment(toml_file)
         line =  toml_file.line
         k = line.split(/\s*?#/)
-        l = nil
+        l = 0
         k.length.times do |i|
           l = i if k[i].include?('"')
         end
 
-        unless k[l + 1].nil?
+        unless k[l + 1].nil? 
           toml_file.value_arr[1] = k[l + 1]
         end
       end
