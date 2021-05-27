@@ -1,22 +1,50 @@
 require_relative '../lib/message'
 
-module Flag
-  class Arg
-    attr_reader :file_path
+module Directory
+  class FileName
+    attr_reader :working_dir, :file_name, :full_dir
 
-    def initialize(file_path)
-      @file_path = file_path
+    def initialize
+      arg = []
+      ARGV.each do |a|
+        arg << a
+      end
+      FileName.get_find(arg[0])
+      @file_name = arg[0]
+      @working_dir = Dir.pwd
+      @full_dir = "#{@working_dir}/#{@file_name}"
     end
-
     class << self
-      def get_files(arg)
-        raise InvalidFile if File.exist?(arg)
+      def get_find(file_path)
+        FileName.no_file(file_path)
+        FileName.file_exits?(file_path)
+      rescue FileName::NoArgument => e
+        Message::Error.no_argument(e.message)
+        exit!
+      rescue FileName::FileNotExisting => e
+        Message::Error.no_such_file(e.message)
+        exit!
       end
     end
 
-    class InvalidFile < Errno::EISDIR
+    def self.file_exits?(arg)
+      e = File.exist?(arg)
+      raise FileNotExisting unless e
+    end
+
+    def self.no_file(arg)
+      raise NoArgument if arg.nil?
+    end
+
+    class FileNotExisting < StandardError
       def message
-        'File does not exits!'
+        'Invalid file name or file does not exit.'
+      end
+    end
+
+    class NoArgument < TypeError
+      def message
+        'File no specified'
       end
     end
   end

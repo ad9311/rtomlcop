@@ -11,6 +11,14 @@ module Message
           puts " #{@at_line} #{line}: #{e_message}\n\t#{@loc} #{pos}\n"
         end
       end
+
+      def no_such_file(message)
+        puts message
+      end
+
+      def no_argument(message)
+        puts message
+      end
     end
   end
 
