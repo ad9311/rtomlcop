@@ -7,7 +7,7 @@ module Message
         if pos.nil?
           puts " #{@at_line} #{toml_file.line_number}: #{e_message}"
         else
-          puts " #{@at_line} #{toml_file.line_number}: #{e_message} #{@loc} #{pos}"
+          puts " #{@at_line} #{toml_file.line_number}: #{e_message}\n\t#{@loc} #{pos}"
         end
       end
     end

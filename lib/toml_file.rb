@@ -7,7 +7,12 @@ module Toml
       @line_number = 1
       @line = nil
       @line_arr = []
-      @value_arr = [nil, nil, nil]
+      # value_arr hold data regarding the current analized line.
+      # index 0 holds the varible numeric value
+      # index 1 holds comment line
+      # index 2 holds variable name
+      # index 3 holds type of variable
+      @value_arr = [nil, nil, nil, nil]
       @error_amount = 0
     end
 

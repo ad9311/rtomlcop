@@ -49,6 +49,11 @@ module Utils
             bad_char = value[i]
             break if /[a-zA-Z\s]/.match?(value[i])
           end
+        else
+          value.length.times do |i|
+            bad_char = value[i]
+            break if /[a-zA-Z\s\-+]/.match?(value[i])
+          end
         end
         bad_char
       end
