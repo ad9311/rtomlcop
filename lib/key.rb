@@ -3,8 +3,10 @@ require_relative '../lib/message'
 require 'date'
 
 module Key
+  # Class for string values
   class KeyString
     class << self
+      # Checks if there is an existing unclosed string
       def closed?(toml_file)
         KeyStringHandler.unclosed?(toml_file)
       rescue KeyStringHandler::UnclosedStringError => e
@@ -28,12 +30,13 @@ module Key
     end
   end
 
+  # Class for Integeres including binary, hex, and octal
   class KeyInt
     class << self
       def which_type?(toml_file)
         value = toml_file.value_arr[0]
         sig = value[0] + value[1] + value[2]
-        case sig
+        case sig # Returns what integer type
         when /[xX]/
           Utils::Slice.get_bad_hex(toml_file)
         when /[oO]/
@@ -45,6 +48,7 @@ module Key
         end
       end
 
+      # Receives error if integer is 0-padded or not valid
       def valid?(toml_file)
         KeyIntHandler.zero_padding(toml_file)
         KeyIntHandler.invalid_int(toml_file)
@@ -54,22 +58,23 @@ module Key
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
 
-        Utils::Slice.get_var_name(toml_file)
-        name = toml_file.value_arr[2]
-        bad_char = which_type?(toml_file)
-        type = toml_file.value_arr[3]
+        Utils::Slice.get_var_name(toml_file) # Saves variable into toml_file.value[3]
+        name = toml_file.value_arr[2] # Gets the current incorrect integer value
+        bad_char = which_type?(toml_file) # Gets what incorrect input is
+        type = toml_file.value_arr[3] # Gets what type of integer is
         msg = "#{e.message} #{type} variable \"#{name[0]}\". Begining at \"#{bad_char}\""
-        Message::Error.display_error(toml_file, msg, toml_file.value_arr[0])
+        Message::Error.display_error(toml_file, msg, toml_file.value_arr[0]) # Display error message with the info above
       end
     end
 
+    # Class for integer errors
     class KeyIntHandler
       def self.zero_padding(toml_file)
         raise ZeroPaddingError if Utils::Error.padded_int(toml_file)
       end
 
       def self.invalid_int(toml_file)
-        e = Utils::Value.invalid_int(toml_file)
+        e = Utils::Value.invalid_int(toml_file) # Calls method to parse possible incorrect integer value
         raise InvalidIntError if e.is_a?(ArgumentError)
       end
 
@@ -87,20 +92,23 @@ module Key
     end
   end
 
+  # Class for float values
   class KeyFloat
     class << self
       def valid?(toml_file)
-        KeyFloat.invalid_float(toml_file)
+        KeyFloat.invalid_float(toml_file) # Checks for incorrect float
       rescue KeyFloat::InvalidFloatError => e
         toml_file.new_error
         Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
       end
     end
+    # Calls method to parse possible incorrect float
     def self.invalid_float(toml_file)
       e = Utils::Value.invalid_float(toml_file)
       raise InvalidFloatError if e.is_a?(ArgumentError)
     end
 
+    # Class for float error
     class InvalidFloatError < ArgumentError
       def message
         'Invalid value for float.'
@@ -108,8 +116,10 @@ module Key
     end
   end
 
+  # Class for dates and time
   class KeyDate
     class << self
+      # Raise error if incorrect date format found
       def valid?(toml_file)
         KeyDate.invalid_date(toml_file)
       rescue KeyDate::InvalidDateError => e
@@ -119,13 +129,13 @@ module Key
     end
 
     def self.invalid_date(toml_file)
-      e = Utils::Value.invalid_date(toml_file)
+      e = Utils::Value.invalid_date(toml_file) # Calls method to parse date
       raise InvalidDateError if e.is_a?(Date::Error)
     end
 
     class InvalidDateError < Date::Error
       def message
-        'Invalid date format'
+        'Invalid date/time format'
       end
     end
   end

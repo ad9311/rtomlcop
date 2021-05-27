@@ -1,9 +1,11 @@
 require 'date'
 
 module Utils
+  # Class for diferent methods needed to parse line
   class Slice
     @numeric_type = %w[int float date_time].freeze
     class << self
+      # Save the current line value into toml_file instance
       def slice_value(toml_file)
         toml_file.line.split(/.+=\s+/) do |c|
           c.split(/\s+#.+\n?/) do |k|
@@ -12,6 +14,7 @@ module Utils
         end
       end
 
+      # Returns the type of value i.e 'float'
       def get_value(toml_file)
         slice_value(toml_file)
         num = toml_file.value_arr[0]
@@ -26,6 +29,7 @@ module Utils
         type
       end
 
+      # Save the comment content into toml_file instance
       def get_comment(toml_file)
         line = toml_file.line
         k = line.split(/\s*?#/)
@@ -37,11 +41,13 @@ module Utils
         toml_file.value_arr[1] = k[l + 1] unless k[l + 1].nil?
       end
 
+      # Saves the variable name into toml_file instance
       def get_var_name(toml_file)
         var = toml_file.line.split(/[\s=]+[\w\W]+/)
         toml_file.value_arr[2] = var
       end
 
+      # Method that finds incorrect character in a decimal integer
       def get_bad_int(toml_file)
         toml_file.value_arr[3] = 'integer'
         value = toml_file.value_arr[0]
@@ -60,6 +66,7 @@ module Utils
         bad_char
       end
 
+      # Method that finds incorrect character in a hexadecimal integer
       def get_bad_hex(toml_file)
         toml_file.value_arr[3] = 'hexadecimal'
         value = toml_file.value_arr[0]
@@ -79,6 +86,7 @@ module Utils
         bad_char
       end
 
+      # Method that finds incorrect character in a octal integer
       def get_bad_oct(toml_file)
         toml_file.value_arr[3] = 'octal'
         value = toml_file.value_arr[0]
@@ -98,6 +106,7 @@ module Utils
         bad_char
       end
 
+      # Method that finds incorrect character in a binary integer
       def get_bad_bin(toml_file)
         toml_file.value_arr[3] = 'binary'
         value = toml_file.value_arr[0]
@@ -120,6 +129,7 @@ module Utils
   end
 
   class Element
+    # This class is used to determin what type of value is the current line
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
     @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=[\s+\-.]?+[0-9\-+.]/)
@@ -140,6 +150,7 @@ module Utils
   end
 
   class Error
+    # This class parses diferent values a returns them so they are raised in Key module
     @no_ws = Regexp.new('\s*#[^\s].+')
     @unclosed = Regexp.new('".+"')
     class << self
@@ -159,6 +170,7 @@ module Utils
     end
   end
 
+  # This class gets the value of variables
   class Value
     class << self
       def invalid_int(toml_file)

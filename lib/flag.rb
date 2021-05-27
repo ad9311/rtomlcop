@@ -6,15 +6,16 @@ module Directory
 
     def initialize
       arg = []
-      ARGV.each do |a|
+      ARGV.each do |a| # Save file name as an arg
         arg << a
       end
-      FileName.get_find(arg[0])
+      FileName.get_find(arg[0]) # Checks if file exist or if it wasn't input
       @file_name = arg[0]
       @working_dir = Dir.pwd
       @full_dir = "#{@working_dir}/#{@file_name}"
     end
     class << self
+      # If file does not exits or file not input then exit script
       def get_find(file_path)
         FileName.no_file(file_path)
         FileName.file_exits?(file_path)

@@ -16,15 +16,18 @@ module Toml
       @error_amount = 0
     end
 
+    # Increments number line
     def next_line
       @line_number += 1
     end
 
+    # Saves current line string into toml_file instance
     def line_to_arr(line)
       @line = line
       @line_arr << line
     end
 
+    # Counts errors found
     def new_error
       @error_amount += 1
     end

@@ -1,8 +1,10 @@
 module Message
+  # Class for displaying messages
   class Error
     @at_line = 'Error at line'.freeze
     @loc = 'Check =>'.freeze
     class << self
+      # Displays error for the current line
       def display_error(toml_file, e_message, pos = nil)
         line = toml_file.line_number
         if pos.nil?
@@ -12,10 +14,12 @@ module Message
         end
       end
 
+      # Display error for no file
       def no_such_file(message)
         puts message
       end
 
+      # Display error for no argument
       def no_argument(message)
         puts message
       end
