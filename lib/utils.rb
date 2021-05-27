@@ -167,12 +167,7 @@ module Utils
         number = /[0-9]/.match?(toml_file.value_arr[0][1])
         zero && number
       end
-    end
-  end
 
-  # This class gets the value of variables
-  class Value
-    class << self
       def invalid_int(toml_file)
         Integer(toml_file.value_arr[0])
       rescue ArgumentError => e

@@ -74,7 +74,7 @@ module Key
       end
 
       def self.invalid_int(toml_file)
-        e = Utils::Value.invalid_int(toml_file) # Calls method to parse possible incorrect integer value
+        e = Utils::Error.invalid_int(toml_file) # Calls method to parse possible incorrect integer value
         raise InvalidIntError if e.is_a?(ArgumentError)
       end
 
@@ -104,7 +104,7 @@ module Key
     end
     # Calls method to parse possible incorrect float
     def self.invalid_float(toml_file)
-      e = Utils::Value.invalid_float(toml_file)
+      e = Utils::Error.invalid_float(toml_file)
       raise InvalidFloatError if e.is_a?(ArgumentError)
     end
 
@@ -129,7 +129,7 @@ module Key
     end
 
     def self.invalid_date(toml_file)
-      e = Utils::Value.invalid_date(toml_file) # Calls method to parse date
+      e = Utils::Error.invalid_date(toml_file) # Calls method to parse date
       raise InvalidDateError if e.is_a?(Date::Error)
     end
 
