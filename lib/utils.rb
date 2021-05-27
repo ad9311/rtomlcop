@@ -40,7 +40,7 @@ module Utils
         toml_file.value_arr[2] = var
       end
 
-      def get_bad_char(toml_file)
+      def get_bad_int(toml_file)
         value = toml_file.value_arr[0]
         zero_one = value[0] + value[1]
         bad_char = '0'
@@ -53,6 +53,60 @@ module Utils
           value.length.times do |i|
             bad_char = value[i]
             break if /[a-zA-Z\s\-+]/.match?(value[i])
+          end
+        end
+        bad_char
+      end
+
+      def get_bad_hex(toml_file)
+        value = toml_file.value_arr[0]
+        bad_char = '0'
+        if /0/.match?(value[0]) && /[xX]/.match?(value[1])
+          (2..value.length).each do |i|
+            bad_char = value[i]
+            break if /[^a-fA-F0-9]/.match?(value[i])
+          end
+        else
+          value.length.times do |i|
+            puts 'here'
+            bad_char = value[i]
+            break if /[^a-fA-F0-9]/.match?(value[i])
+          end
+        end
+        bad_char
+      end
+
+      def get_bad_oct(toml_file)
+        value = toml_file.value_arr[0]
+        bad_char = '0'
+        if /0/.match?(value[0]) && /[oO]/.match?(value[1])
+          (2..value.length).each do |i|
+            bad_char = value[i]
+            break if /[^0-7]/.match?(value[i])
+          end
+        else
+          value.length.times do |i|
+            puts 'here'
+            bad_char = value[i]
+            break if /[^0-7]/.match?(value[i])
+          end
+        end
+        bad_char
+      end
+
+      def get_bad_bin(toml_file)
+        value = toml_file.value_arr[0]
+        bad_char = '0'
+        if /0/.match?(value[0]) && /[bB]/.match?(value[1])
+          (2..value.length).each do |i|
+            bad_char = value[i]
+            break if /[^0-1]/.match?(value[i])
+          end
+        else
+          value.length.times do |i|
+            puts 'here'
+            bad_char = value[i]
+            break if /[^0-1]/.match?(value[i])
           end
         end
         bad_char
