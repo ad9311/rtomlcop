@@ -17,6 +17,7 @@ module Comment
 
       def self.check_whitespace(toml_file)
         unless toml_file.value_arr[1].nil?
+          
           raise NoWhitespaceError if toml_file.value_arr[1][0] != ' '
         end
       end

@@ -1,7 +1,7 @@
 module Message
   class Error
     @at_line = 'Error at line'.freeze
-    @loc = 'Check after =>'
+    @loc = 'Check =>'
     class << self
       def display_error(toml_file, e_message, pos = nil)
         if pos.nil?
