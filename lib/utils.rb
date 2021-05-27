@@ -2,14 +2,17 @@ module Utils
   class Slice
     @numeric_type = %w[int float date_time].freeze
     class << self
-      def get_value(toml_file)
-        type = nil
+      def slice_value(toml_file)
         toml_file.line.split(/.+=\s+/) do |c|
           c.split(/\s+#.+\n?/) do |k|
             toml_file.value_arr[0] = k
           end
         end
+      end
 
+      def get_value(toml_file)
+        slice_value(toml_file)
+        type = nil
         if !/[xX:]/.match?(toml_file.value_arr[0]) && /[eE.]/.match?(toml_file.value_arr[0])
           type = @numeric_type[1]
         elsif !toml_file.value_arr[0].include?(':')
@@ -53,7 +56,7 @@ module Utils
 
   class Error
     @no_ws = Regexp.new('\s*#[^\s].+')
-    @unclosed = Regexp.new('[a-z0-9]+[\s=]+"+.+"$')
+    @unclosed = Regexp.new('".+"')
     class << self
       def no_white_space
         @no_ws

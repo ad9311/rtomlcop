@@ -14,7 +14,7 @@ module Line
       # Check line has a key with an unclosed string as a value
       # Ignore if line is a comment
       def string?(toml_file)
-        # Key::KeyString.closed?(toml_file)
+        Key::KeyString.closed?(toml_file)
       end
 
       # Check line is a key with a integer value
