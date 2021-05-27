@@ -6,24 +6,33 @@ module Utils
         type = nil
         toml_file.line.split(/.+=\s+/) do |c|
           c.split(/\s+#.+\n?/) do |k|
-            toml_file.line_value = k
+            toml_file.value_arr[0] = k
           end
         end
 
-        if !/[xX:]/.match?(toml_file.line_value) && /[eE.]/.match?(toml_file.line_value)
+        if !/[xX:]/.match?(toml_file.value_arr[0]) && /[eE.]/.match?(toml_file.value_arr[0])
           type = @numeric_type[1]
-        elsif !toml_file.line_value.include?(':')
+        elsif !toml_file.value_arr[0].include?(':')
           type = @numeric_type[0]
-        elsif toml_file.line_value[4] == '-' || toml_file.line_value[2] == ':'
+        elsif toml_file.value_arr[0][4] == '-' || toml_file.value_arr[0][2] == ':'
           type = @numeric_type[2]
         end
         type
+      end
+
+      def get_comment(toml_file)
+        buffer = nil
+        toml_file.line.split(/#/) do |c|
+          buffer = c
+        end
+        k = toml_file.line.length - buffer.length - 1
+        toml_file.value_arr[1] = k
       end
     end
   end
 
   class Element
-    @is_comment = Regexp.new(/^(\s+|)#.+./)
+    @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
     @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=[\s+\-.]?+[0-9\-+.]/)
 
@@ -55,8 +64,8 @@ module Utils
       end
 
       def padded_int(toml_file)
-        zero = toml_file.line_value[0] == '0'
-        number = /[0-9]/.match?(toml_file.line_value[1])
+        zero = toml_file.value_arr[0][0] == '0'
+        number = /[0-9]/.match?(toml_file.value_arr[0][1])
         zero && number
       end
     end
@@ -65,13 +74,13 @@ module Utils
   class Value
     class << self
       def invalid_int(toml_file)
-        Integer(toml_file.line_value)
+        Integer(toml_file.value_arr[0])
       rescue ArgumentError => e
         e
       end
 
       def invalid_float(toml_file)
-        Float(toml_file.line_value)
+        Float(toml_file.value_arr[0])
       rescue ArgumentError => e
         e
       end

@@ -14,14 +14,15 @@ module Comment
 
     class CommentHandler
       @rgx_no_ws = Utils::Error.no_white_space
+
+      def self.check_whitespace(toml_file)
+        raise NoWhitespaceError if toml_file.line[toml_file.value_arr[1] + 1] != ' '
+      end
+
       class NoWhitespaceError < StandardError
         def message
           'Missing whitespace after #.'
         end
-      end
-
-      def self.check_whitespace(toml_file)
-        raise NoWhitespaceError if @rgx_no_ws.match?(toml_file.line)
       end
     end
   end
