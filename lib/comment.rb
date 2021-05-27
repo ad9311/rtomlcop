@@ -8,7 +8,9 @@ module Comment
         CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message)
+        comment = '#'
+        comment.concat(toml_file.value_arr[1])
+        Message::Error.display_error(toml_file, e.message, comment)
       end
     end
 
@@ -16,10 +18,8 @@ module Comment
       @rgx_no_ws = Utils::Error.no_white_space
 
       def self.check_whitespace(toml_file)
-        unless toml_file.value_arr[1].nil?
-          
-          raise NoWhitespaceError if toml_file.value_arr[1][0] != ' '
-        end
+        return if toml_file.value_arr[1].nil?
+        raise NoWhitespaceError if toml_file.value_arr[1][0] != ' '
       end
 
       class NoWhitespaceError < StandardError

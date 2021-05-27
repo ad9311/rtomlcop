@@ -7,7 +7,7 @@ module Toml
       @line_number = 1
       @line = nil
       @line_arr = []
-      @value_arr = [nil, nil]
+      @value_arr = [nil, nil, nil]
       @error_amount = 0
     end
 

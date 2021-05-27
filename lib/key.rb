@@ -37,7 +37,11 @@ module Key
         Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message)
+        Utils::Slice.get_var_name(toml_file)
+        name = toml_file.value_arr[2]
+        bad_char = Utils::Slice.get_bad_char(toml_file)
+        msg = "#{e.message} Invalid value in #{name[0]}. Begining at \"#{bad_char}\""
+        Message::Error.display_error(toml_file, msg, toml_file.value_arr[0])
       end
     end
 
@@ -59,7 +63,7 @@ module Key
 
       class InvalidIntError < ArgumentError
         def message
-          'Invalid value for integer.'
+          'Invalid...'
         end
       end
     end
@@ -71,7 +75,7 @@ module Key
         KeyFloat.invalid_float(toml_file)
       rescue KeyFloat::InvalidFloatError => e
         toml_file.new_error
-        puts "Error at line #{toml_file.line_number}: #{e.message}"
+        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
       end
     end
     def self.invalid_float(toml_file)

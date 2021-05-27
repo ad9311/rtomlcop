@@ -12,12 +12,13 @@ module Utils
 
       def get_value(toml_file)
         slice_value(toml_file)
+        num = toml_file.value_arr[0]
         type = nil
-        if !/[xX:]/.match?(toml_file.value_arr[0]) && /[eE.]/.match?(toml_file.value_arr[0])
+        if !/[xX:]/.match?(num) && /[eE.]/.match?(num)
           type = @numeric_type[1]
-        elsif !toml_file.value_arr[0].include?(':')
+        elsif !num.include?(':') && num[4] != '-'
           type = @numeric_type[0]
-        elsif toml_file.value_arr[0][4] == '-' || toml_file.value_arr[0][2] == ':'
+        elsif num[4] == '-' || num[2] == ':'
           type = @numeric_type[2]
         end
         type
@@ -31,9 +32,25 @@ module Utils
           l = i if k[i].include?('"')
         end
 
-        unless k[l + 1].nil?
-          toml_file.value_arr[1] = k[l + 1]
+        toml_file.value_arr[1] = k[l + 1] unless k[l + 1].nil?
+      end
+
+      def get_var_name(toml_file)
+        var = toml_file.line.split(/[\s=]+[\w\W]+/)
+        toml_file.value_arr[2] = var
+      end
+
+      def get_bad_char(toml_file)
+        value = toml_file.value_arr[0]
+        zero_one = value[0] + value[1]
+        bad_char = '0'
+        if /[xXeEoO+\-]/.match?(zero_one)
+          value.length.times do |i|
+            bad_char = value[i]
+            break if /[a-zA-Z\s]/.match?(value[i])
+          end
         end
+        bad_char
       end
     end
   end
