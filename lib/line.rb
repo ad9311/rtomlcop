@@ -23,11 +23,11 @@ module Line
         value = Utils::Slice.get_value(toml_file)
         case value
         when 'float'
-          # Key::KeyFloat.valid?(toml_file)
+          Key::KeyFloat.valid?(toml_file)
         when 'int'
           Key::KeyInt.valid?(toml_file)
         when 'date_time'
-          # puts 'data_time'
+          Key::KeyDate.valid?(toml_file)
         end
       end
     end

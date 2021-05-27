@@ -1,5 +1,6 @@
 require_relative '../lib/utils'
 require_relative '../lib/message'
+require 'date'
 
 module Key
   class KeyString
@@ -103,6 +104,28 @@ module Key
     class InvalidFloatError < ArgumentError
       def message
         'Invalid value for float.'
+      end
+    end
+  end
+
+  class KeyDate
+    class << self
+      def valid?(toml_file)
+        KeyDate.invalid_date(toml_file)
+      rescue KeyDate::InvalidDateError => e
+        toml_file.new_error
+        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
+      end
+    end
+
+    def self.invalid_date(toml_file)
+      e = Utils::Value.invalid_date(toml_file)
+      raise InvalidDateError if e.is_a?(Date::Error)
+    end
+
+    class InvalidDateError < Date::Error
+      def message
+        'Invalid date format'
       end
     end
   end

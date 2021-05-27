@@ -6,9 +6,9 @@ module Message
       def display_error(toml_file, e_message, pos = nil)
         line = toml_file.line_number
         if pos.nil?
-          puts " #{@at_line} #{line}: #{e_message}"
+          puts " #{@at_line} #{line}: #{e_message}\n\n"
         else
-          puts " #{@at_line} #{line}: #{e_message}\n\t#{@loc} #{pos}"
+          puts " #{@at_line} #{line}: #{e_message}\n\t#{@loc} #{pos}\n"
         end
       end
     end

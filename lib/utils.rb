@@ -1,3 +1,5 @@
+require 'date'
+
 module Utils
   class Slice
     @numeric_type = %w[int float date_time].freeze
@@ -168,6 +170,12 @@ module Utils
       def invalid_float(toml_file)
         Float(toml_file.value_arr[0])
       rescue ArgumentError => e
+        e
+      end
+
+      def invalid_date(toml_file)
+        Date.parse(toml_file.value_arr[0])
+      rescue Date::Error => e
         e
       end
     end

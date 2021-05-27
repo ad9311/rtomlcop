@@ -1,1 +1,14 @@
-bin_number = 0b023
+ldt1 = 1979-05-27T07:32:00
+ldt2 = 1979-05-27T00:32:00.999999
+odt4 = 1979-05-27 07:32:00Z
+odt1 = 1979-05-27T07:32:00Z # adasdadad
+odt2 = 1979-05-27T00:32:00-07:00
+odt3 = 1979-05-27T00:32:00.999999-07:00
+
+apple.type = "fruit"
+apple.skin = "thin"
+apple.color = "red"
+
+orange.type = "fruit"
+orange.skin = "thick"
+orange.color = "orange"
