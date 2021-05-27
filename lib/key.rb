@@ -29,6 +29,21 @@ module Key
 
   class KeyInt
     class << self
+      def which_type?(toml_file)
+        value = toml_file.value_arr[0]
+        sig = value[0] + value[1] + value[2]
+        case sig
+        when /[xX]/
+          Utils::Slice.get_bad_hex(toml_file)
+        when /[oO]/
+          Utils::Slice.get_bad_oct(toml_file)
+        when /[bB]/
+          Utils::Slice.get_bad_bin(toml_file)
+        else
+          Utils::Slice.get_bad_int(toml_file)
+        end
+      end
+
       def valid?(toml_file)
         KeyIntHandler.zero_padding(toml_file)
         KeyIntHandler.invalid_int(toml_file)
@@ -40,10 +55,8 @@ module Key
 
         Utils::Slice.get_var_name(toml_file)
         name = toml_file.value_arr[2]
-        bad_char = Utils::Slice.get_bad_hex(toml_file)
-
+        bad_char = which_type?(toml_file)
         msg = "#{e.message}\"#{name[0]}\". Begining at \"#{bad_char}\""
-
         Message::Error.display_error(toml_file, msg, toml_file.value_arr[0])
       end
     end
