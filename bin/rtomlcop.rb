@@ -3,11 +3,11 @@
 require_relative '../lib/toml_file'
 require_relative '../lib/line'
 require_relative '../lib/utils'
-require_relative '../lib/flag'
+#require_relative '../lib/flag'
 require_relative '../lib/message'
 
 DIR = Dir.pwd
-ALL_FILES = Dir.glob('*.toml')
+ALL_FILES = Dir.glob('sample.toml')
 
 toml_file = Toml::File.new
 # flag = Flag::Hold.new
