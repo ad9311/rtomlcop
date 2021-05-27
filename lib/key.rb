@@ -39,13 +39,6 @@ module Key
         toml_file.new_error
         Message::Error.display_error(toml_file, e.message)
       end
-
-      # def valid_value?(toml_file)
-      #   KeyIntHandler.invalid_int(toml_file)
-      # rescue KeyIntHandler::InvalidIntError => e
-      #   toml_file.new_error
-      #   puts "Error at line #{toml_file.line_number}: #{e.message}"
-      # end
     end
 
     class KeyIntHandler

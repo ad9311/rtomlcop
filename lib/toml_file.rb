@@ -1,13 +1,15 @@
 module Toml
   class File
     attr_reader :line_number, :line, :line_arr, :error_amount
-    attr_accessor :line_value
+    attr_accessor :line_value, :line_comment, :value_arr
 
     def initialize
       @line_number = 1
       @line = nil
       @line_arr = []
       @line_value = nil
+      @line_comment = nil
+      @value_arr = [nil, nil]
       @error_amount = 0
     end
 

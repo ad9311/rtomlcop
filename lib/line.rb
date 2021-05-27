@@ -7,13 +7,13 @@ module Line
     class << self
       # Check if comment has a space between # symbol
       def comment?(toml_file)
-        Comment::Oneline.space?(toml_file)
+        # Comment::Oneline.space?(toml_file)
       end
 
       # Check line has a key with an unclosed string as a value
       # Ignore if line is a comment
       def string?(toml_file)
-        Key::KeyString.closed?(toml_file)
+        # Key::KeyString.closed?(toml_file)
       end
 
       # Check line is a key with a integer value
@@ -22,11 +22,10 @@ module Line
         value = Utils::Slice.get_value(toml_file)
         case value
         when 'float'
-          Key::KeyFloat.valid?(toml_file)
+          # Key::KeyFloat.valid?(toml_file)
         when 'int'
-          Key::KeyInt.valid?(toml_file)
-          # Key::KeyInt.valid_value?(toml_file)
-        when 'data_time'
+          # Key::KeyInt.valid?(toml_file)
+        when 'date_time'
           # puts 'data_time'
         end
       end

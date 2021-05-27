@@ -5,7 +5,9 @@ module Utils
       def get_value(toml_file)
         type = nil
         toml_file.line.split(/.+=\s+/) do |c|
-          toml_file.line_value = c
+          c.split(/\s+#.+\n?/) do |k|
+            toml_file.line_value = k
+          end
         end
 
         if !/[xX:]/.match?(toml_file.line_value) && /[eE.]/.match?(toml_file.line_value)
