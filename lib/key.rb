@@ -56,7 +56,8 @@ module Key
         Utils::Slice.get_var_name(toml_file)
         name = toml_file.value_arr[2]
         bad_char = which_type?(toml_file)
-        msg = "#{e.message}\"#{name[0]}\". Begining at \"#{bad_char}\""
+        type = toml_file.value_arr[3]
+        msg = "#{e.message} #{type} variable \"#{name[0]}\". Begining at \"#{bad_char}\""
         Message::Error.display_error(toml_file, msg, toml_file.value_arr[0])
       end
     end
@@ -79,7 +80,7 @@ module Key
 
       class InvalidIntError < ArgumentError
         def message
-          'Invalid value in variable '
+          'Invalid integer value for'
         end
       end
     end

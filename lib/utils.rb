@@ -41,7 +41,7 @@ module Utils
       end
 
       def get_bad_int(toml_file)
-        toml_file.value_arr[3] = 'Integer'
+        toml_file.value_arr[3] = 'integer'
         value = toml_file.value_arr[0]
         bad_char = '*'
         if /[+\-]/.match?(value[0])
@@ -59,7 +59,7 @@ module Utils
       end
 
       def get_bad_hex(toml_file)
-        toml_file.value_arr[3] = 'Hexadecimal'
+        toml_file.value_arr[3] = 'hexadecimal'
         value = toml_file.value_arr[0]
         bad_char = '0'
         if /0/.match?(value[0]) && /[xX]/.match?(value[1])
@@ -78,7 +78,7 @@ module Utils
       end
 
       def get_bad_oct(toml_file)
-        toml_file.value_arr[3] = 'Octal'
+        toml_file.value_arr[3] = 'octal'
         value = toml_file.value_arr[0]
         bad_char = '0'
         if /0/.match?(value[0]) && /[oO]/.match?(value[1])
@@ -97,7 +97,7 @@ module Utils
       end
 
       def get_bad_bin(toml_file)
-        toml_file.value_arr[3] = 'Binary'
+        toml_file.value_arr[3] = 'binary'
         value = toml_file.value_arr[0]
         bad_char = '0'
         if /0/.match?(value[0]) && /[bB]/.match?(value[1])
