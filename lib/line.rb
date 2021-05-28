@@ -14,6 +14,7 @@ module Line
       # Check line has a key with an unclosed string as a value
       # Ignore if line is a comment
       def string?(toml_file)
+        toml_file.value_arr[4] = Utils::Slice.slice_value(toml_file)
         Key::KeyString.closed?(toml_file)
       end
 

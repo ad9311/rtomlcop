@@ -12,7 +12,8 @@ module Toml
       # index 1 holds comment line
       # index 2 holds variable name
       # index 3 holds type of variable
-      @value_arr = [nil, nil, nil, nil]
+      # index 4 holds string content
+      @value_arr = [nil, nil, nil, nil, nil]
       @error_amount = 0
     end
 

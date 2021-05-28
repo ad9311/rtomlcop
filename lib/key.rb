@@ -11,7 +11,8 @@ module Key
         KeyStringHandler.unclosed?(toml_file)
       rescue KeyStringHandler::UnclosedStringError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message)
+        str = toml_file.value_arr[4]
+        Message::Error.display_error(toml_file, e.message, str) # Calls message if an error has been raised
       end
     end
 
