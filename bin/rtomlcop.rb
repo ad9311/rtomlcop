@@ -3,7 +3,7 @@
 require_relative '../lib/toml_file'
 require_relative '../lib/line'
 require_relative '../lib/utils'
-require_relative '../lib/flag'
+require_relative '../lib/directory'
 require_relative '../lib/message'
 
 file = Directory::FileName.new # Create a new file directory
