@@ -17,7 +17,7 @@ describe Utils do
       expect(toml_file.value_arr[2]).to eq('int = 10t0')
     end
     it 'Returns the comment without the #' do
-      expect(toml_file.value_arr[1]).to eq('bad comment')
+      expect(toml_file.value_arr[1]).to eq(' #bad comment')
     end
     it 'Returns the bad character in the inter value' do
       expect(Utils::Slice.get_bad_int(toml_file)).to eq('t')

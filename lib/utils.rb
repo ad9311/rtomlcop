@@ -31,12 +31,16 @@ module Utils
       # Save the comment content into toml_file instance
       def get_comment(toml_file)
         line = toml_file.line
-        k = line.split(/\s*?#/)
-        l = 0
-        k.length.times do |i|
-          l = i if k[i].include?('"')
+        prev = nil
+        after = []
+        flag = false
+        line.length.times do |i|
+          flag = true if line[i].include?('#')
+          prev = line[i] unless flag
+          after << line[i] if flag
         end
-        toml_file.value_arr[1] = k[l + 1] unless k[l + 1].nil?
+        toml_file.value_arr[1] = after.join if prev.nil?
+        toml_file.value_arr[1] = prev.concat(after.join) unless prev.nil?
       end
 
       # Joins together variable name and value
@@ -184,7 +188,7 @@ module Utils
       def invalid_date(toml_file)
         value = toml_file.value_arr[0]
         value.length.times do |i|
-          puts toml_file.line_number if /[^0-9\-tTzZ:.\s]/.match?(value[i])
+        raise Date::Error if /[^0-9\-tTzZ:.\s]/.match?(value[i])
         end
         DateTime.parse(toml_file.value_arr[0])
       rescue Date::Error => e
