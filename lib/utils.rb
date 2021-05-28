@@ -56,12 +56,12 @@ module Utils
         if /[+\-]/.match?(value[0])
           (1..value.length).each do |i|
             bad_char = value[i]
-            break if /[^0-9]/.match?(value[i])
+            break if /[^0-9_]/.match?(value[i])
           end
         else
           value.length.times do |i|
             bad_char = value[i]
-            break if /[^0-9]/.match?(value[i])
+            break if /[^0-9_]/.match?(value[i])
           end
         end
         bad_char
@@ -76,12 +76,12 @@ module Utils
         if /0/.match?(value[0]) && /[xX0]/.match?(value[1])
           (2..value.length).each do |i|
             bad_char = value[i]
-            break if /[^a-fA-F0-9]/.match?(value[i])
+            break if /[^a-fA-F0-9_]/.match?(value[i])
           end
         else
           value.length.times do |i|
             bad_char = value[i]
-            break if /[^a-fA-F0-9]/.match?(value[i])
+            break if /[^a-fA-F0-9_]/.match?(value[i])
           end
         end
         bad_char
@@ -96,13 +96,12 @@ module Utils
         if /0/.match?(value[0]) && /[oO]/.match?(value[1])
           (2..value.length).each do |i|
             bad_char = value[i]
-            break if /[^0-7]/.match?(value[i])
+            break if /[^0-7_]/.match?(value[i])
           end
         else
           value.length.times do |i|
-            puts 'here'
             bad_char = value[i]
-            break if /[^0-7]/.match?(value[i])
+            break if /[^0-7_]/.match?(value[i])
           end
         end
         bad_char
@@ -121,7 +120,6 @@ module Utils
           end
         else
           value.length.times do |i|
-            puts 'here'
             bad_char = value[i]
             break if /[^0-1]/.match?(value[i])
           end
@@ -135,7 +133,7 @@ module Utils
     # This class is used to determin what type of value is the current line
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
-    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*[\s+\-.]?+[0-9\-+.]/)
+    @is_numeric = Regexp.new(/^[\w\W]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
 
     class << self
       def detect_comment
