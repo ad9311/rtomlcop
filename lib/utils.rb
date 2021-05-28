@@ -78,7 +78,6 @@ module Utils
           end
         else
           value.length.times do |i|
-            puts 'here'
             bad_char = value[i]
             break if /[^a-fA-F0-9]/.match?(value[i])
           end
