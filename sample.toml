@@ -1,3 +1,54 @@
+# This is a TOML comment
 
-bad = "asdsdsd #adadadad
-int = 9xlo #adadadad
+# This is a multiline
+# TOML comment
+
+str1 = "I'm a string."
+str2 = "You can \"quote\" me."
+str3 = "Name\tJos\u00E9\nLoc\tSF."
+
+# integers
+int1 = +99
+int2 = 42
+int3 = 0
+int4 = -17
+
+# hexadecimal with prefix `0x`
+hex1 = 0xDEADBEEF
+hex2 = 0xdeadbeef # Lowercase hex
+hex3 = 0xdead_beef
+
+# octal with prefix `0o`
+oct1 = 0o01234567
+oct2 = 0o755
+
+# binary with prefix `0b`
+bin1 = 0b11010110
+
+# fractional
+float1 = +1.0
+float2 = 3.1415
+float3 = -0.01
+
+# exponent
+float4 = 5e+22
+float5 = 1e06
+float6 = -2E-2
+
+# both
+float7 = 6.626e-34
+
+# separators
+float8 = 224_617.445_991_228
+
+# offset datetime
+odt1 = 1979-05-27T07:32:00Z
+odt2 = 1979-05-27T00:32:00-07:00
+odt3 = 1979-05-27T00:32:00.999999-07:00 # Long date
+
+# local datetime
+ldt1 = 1979-05-27T07:32:00
+ldt2 = 1979-05-27T00:32:00.999999
+
+# local date
+ld1 = 1979-05-27
