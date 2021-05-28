@@ -30,7 +30,7 @@ describe Utils do
   let(:toml_file) { Toml::File.new }
   before 'Add new line to toml_file instance' do
     toml_file.line_to_arr('float = 10e2k')
-    Utils::Slice.slice_value(toml_file)
+    Utils::Slice.join_var_val(toml_file)
   end
   describe Utils::Slice do
     it 'Returns the numeric value type' do

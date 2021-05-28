@@ -6,7 +6,7 @@ describe Key do
   let(:toml_file) { Toml::File.new }
   before 'Add new line to toml_file instance' do
     toml_file.line_to_arr('int = asdad #bad comment')
-    Utils::Slice.slice_value(toml_file)
+    Utils::Slice.join_var_val(toml_file)
     puts Key::KeyString.closed?(toml_file)
   end
   describe Key::KeyString do

@@ -32,6 +32,11 @@ module Line
           Key::KeyDate.valid?(toml_file)
         end
       end
+
+      def boolean?(toml_file)
+        Utils::Slice.join_var_val(toml_file)
+        Key::KeyBool.valid?(toml_file)
+      end
     end
   end
 end

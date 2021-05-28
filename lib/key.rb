@@ -34,6 +34,9 @@ module Key
   class KeyInt
     class << self
       # Checks if index two exits
+
+      private
+
       def units?(toml_file)
         value = toml_file.value_arr[0]
         index2 = '0'
@@ -43,6 +46,8 @@ module Key
       end
 
       # Returns what integer type
+      public
+
       def which_type?(toml_file)
         sig = units?(toml_file)
         case sig
@@ -142,6 +147,30 @@ module Key
     class InvalidDateError < Date::Error
       def message
         'Invalid date/time format or out of range'
+      end
+    end
+  end
+
+  # Class for dates and time
+  class KeyBool
+    class << self
+      # Raise error if bolean keyword not lowecase
+      def valid?(toml_file)
+        KeyBool.invalid_bool(toml_file)
+      rescue KeyBool::InvalidBoolError => e
+        toml_file.new_error
+        Message::Error.display_error(toml_file, e.message)
+      end
+    end
+
+    def self.invalid_bool(toml_file)
+      e = Utils::Error.invalid_bool(toml_file)
+      raise InvalidBoolError if e.is_a?(NameError)
+    end
+
+    class InvalidBoolError < NameError
+      def message
+        'Boolean keywords must be all lowercase.'
       end
     end
   end

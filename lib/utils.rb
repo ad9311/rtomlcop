@@ -6,13 +6,15 @@ module Utils
     @numeric_type = %w[int float date_time].freeze
     class << self
       # Save the current line value into toml_file instance
+
+      private
+
       def slice_value(toml_file)
-        toml_file.line.split(/.+=\s+/) do |c|
-          c.split(/\s?+#.+\n?/) do |k|
-            toml_file.value_arr[0] = k
-          end
-        end
+        k = toml_file.line.split(/[#=]/)
+        toml_file.value_arr[0] = k[1].strip
       end
+
+      public
 
       # Returns the type of value i.e 'float'
       def get_value(toml_file)
@@ -138,6 +140,7 @@ module Utils
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
     @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
+    @is_bolean = Regexp.new(/.+=\s*([trueTRUE]+|[falseFALSE]+)/)
 
     class << self
       def detect_comment
@@ -151,6 +154,10 @@ module Utils
       def detect_numeric
         @is_numeric
       end
+
+      def detect_bool
+        @is_bolean
+      end
     end
   end
 
@@ -158,6 +165,7 @@ module Utils
     # This class parses diferent values a returns them so they are raised in Key module
     @no_ws = Regexp.new('\s*#[^\s].+')
     @unclosed = Regexp.new('".+"')
+    @wrong_bool = Regexp.new('(true|false)')
     class << self
       def no_white_space
         @no_ws
@@ -192,6 +200,13 @@ module Utils
         end
         DateTime.parse(toml_file.value_arr[0])
       rescue Date::Error => e
+        e
+      end
+
+      def invalid_bool(toml_file)
+        value = toml_file.value_arr[0]
+        raise NameError unless @wrong_bool.match?(value)
+      rescue NameError => e
         e
       end
     end
