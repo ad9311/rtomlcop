@@ -28,8 +28,8 @@ module Message
 
   class Info
     class << self
-      def display_check
-        puts 'Checking for errors...'
+      def display_check(file)
+        puts "Checking for errors in #{file.file_name}"
       end
 
       def display_error_count(toml_file)

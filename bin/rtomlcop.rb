@@ -14,7 +14,7 @@ rgx_comment = Utils::Element.detect_comment # Regexr to detect comments
 rgx_string = Utils::Element.detect_string # Regex to detect double quoted strings
 rgx_num = Utils::Element.detect_numeric # Regex to detect numeric values (integers, floats & dates)
 
-Message::Info.display_check # Displays a message
+Message::Info.display_check(file) # Displays a message
 
 File.foreach(file.full_dir) do |line|
   toml_file.line_to_arr(line) # Saves current line string into toml_file instance
