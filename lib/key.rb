@@ -141,7 +141,7 @@ module Key
 
     class InvalidDateError < Date::Error
       def message
-        'Invalid date/time format'
+        'Invalid date/time format or out of range'
       end
     end
   end

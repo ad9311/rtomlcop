@@ -133,7 +133,7 @@ module Utils
     # This class is used to determin what type of value is the current line
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
-    @is_numeric = Regexp.new(/^[\w\W]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
+    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
 
     class << self
       def detect_comment
@@ -182,7 +182,11 @@ module Utils
       end
 
       def invalid_date(toml_file)
-        Date.parse(toml_file.value_arr[0])
+        value = toml_file.value_arr[0]
+        value.length.times do |i|
+          puts toml_file.line_number if /[^0-9\-tTzZ:.\s]/.match?(value[i])
+        end
+        DateTime.parse(toml_file.value_arr[0])
       rescue Date::Error => e
         e
       end
