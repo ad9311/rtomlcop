@@ -26,19 +26,21 @@ describe Utils do
   end
 end
 
+# test for float
 describe Utils do
   let(:toml_file) { Toml::File.new }
   before 'Add new line to toml_file instance' do
     toml_file.line_to_arr('float = 10e2k')
     Utils::Slice.slice_value(toml_file)
-    Utils::Slice.get_value(toml_file)
-    Utils::Error.invalid_float(toml_file)
   end
   describe Utils::Slice do
-    it '...' do
+    it 'Returns the numeric value type' do
+      expect(Utils::Slice.get_value(toml_file)).to eq('float')
+    end
+    it 'Save the current variable value to toml_file instance' do
       expect(toml_file.value_arr[0]).to eq('10e2k')
     end
-    it 'Raise error from invalid float' do
+    it 'Return instance error invalid float' do
       expect(Utils::Error.invalid_float(toml_file)).to be_instance_of(ArgumentError)
     end
   end
