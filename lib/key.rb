@@ -39,8 +39,7 @@ module Key
         index2 = '0'
         index2 = value[2] unless value[2].nil?
         sig = value[0] + value[1] + index2
-        #sig = value[0] + value[1] + value[2]
-        sig
+        return sig unless sig.nil?
       end
 
       # Returns what integer type
@@ -93,7 +92,7 @@ module Key
           char = KeyInt.which_type?(toml_file)
           type = toml_file.value_arr[3]
           msg = "Invalid #{type} value. \"#{char}\" character not permitted."
-          msg
+          return msg unless msg.nil?
         end
       end
     end

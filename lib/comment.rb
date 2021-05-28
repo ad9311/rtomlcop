@@ -4,14 +4,20 @@ require_relative '../lib/message'
 module Comment
   class Oneline
     class << self
+      def append_hashtag(toml_file)
+        hashtag = '#'
+        comment = toml_file.value_arr[1]
+        hashtag.concat(comment)
+        toml_file.value_arr[1] = hashtag
+      end
+
       # Method to check for a required space after # in a comment
       def space?(toml_file)
         CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
         toml_file.new_error
-        # comment = '#'
-        # comment.concat(toml_file.value_arr[1])
-        # Message::Error.display_error(toml_file, e.message, comment) # Calls message if an error has been raised
+        append_hashtag(toml_file)
+        Message::Error.display_comment_error(toml_file, e.message)
       end
     end
 
@@ -26,7 +32,7 @@ module Comment
 
       class NoWhitespaceError < StandardError
         def message
-          'Missing whitespace after #.'
+          'Missing whitespace in comment.'
         end
       end
     end

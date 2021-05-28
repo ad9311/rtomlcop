@@ -12,6 +12,13 @@ module Message
         puts msg
       end
 
+      def display_comment_error(toml_file, e_msg)
+        line = toml_file.line_number
+        var = toml_file.value_arr[1]
+        msg = "#{@at_line} #{line}: #{e_msg}\n\t #{@loc} #{var}"
+        puts msg
+      end
+
       # Display error for no file
       def no_such_file(message)
         puts message

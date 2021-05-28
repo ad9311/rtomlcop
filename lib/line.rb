@@ -7,8 +7,8 @@ module Line
     class << self
       # Check if comment has a space between # symbol
       def comment?(toml_file)
-        # Utils::Slice.get_comment(toml_file)
-        # Comment::Oneline.space?(toml_file)
+        Utils::Slice.get_comment(toml_file)
+        Comment::Oneline.space?(toml_file)
       end
 
       # Check line has a key with an unclosed string as a value
