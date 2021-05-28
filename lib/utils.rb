@@ -24,7 +24,7 @@ module Utils
           type = @numeric_type[1]
         elsif !num.include?(':') && num[4] != '-'
           type = @numeric_type[0]
-        elsif num[4] == '-' || num[2] == ':'
+        elsif num[4] == '-' || /:/.match?(num)
           type = @numeric_type[2]
         end
         type
@@ -140,7 +140,7 @@ module Utils
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
     @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
-    @is_bolean = Regexp.new(/.+=\s*([trueTRUE]+|[falseFALSE]+)/)
+    @is_bolean = Regexp.new(/.+=\s*(?i)(true|false)$/)
 
     class << self
       def detect_comment
