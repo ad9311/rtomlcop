@@ -119,13 +119,17 @@ Number of errors found: 7
 
 ## Getting Started
 
+### Using RTomlCop
 To begin using RTomlCop follow these steps:
 - Clone this project `git clone https://github.com/ad9311/rtomlcop.git` using your terminal.
 - Then change directory `cd rtomlcop`
 - There is already a sample.toml file you can use or provide another one.
 - Pass the filename with its extentsion as an argument `bin/rtomlcop.rb <file_name_with_extension>`
 - If no file provided or the file does not exists the program will terminate.
-- If you want to check several files do them one by one.
+- If you want to check several files do them one by one.</br>
+
+### Rspec
+To check rspec just type in the terminal `rspec` and it will run the tests.
 
 **Make sure to select a file that is in the root folder as if it is in another folder will not work.**
 
