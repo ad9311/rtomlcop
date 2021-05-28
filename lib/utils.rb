@@ -188,7 +188,7 @@ module Utils
       def invalid_date(toml_file)
         value = toml_file.value_arr[0]
         value.length.times do |i|
-        raise Date::Error if /[^0-9\-tTzZ:.\s]/.match?(value[i])
+          raise Date::Error if /[^0-9\-tTzZ:.\s]/.match?(value[i])
         end
         DateTime.parse(toml_file.value_arr[0])
       rescue Date::Error => e
