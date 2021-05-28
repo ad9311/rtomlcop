@@ -8,7 +8,7 @@ module Utils
       # Save the current line value into toml_file instance
       def slice_value(toml_file)
         toml_file.line.split(/.+=\s+/) do |c|
-          c.split(/\s+#.+\n?/) do |k|
+          c.split(/\s?+#.+\n?/) do |k|
             toml_file.value_arr[0] = k
           end
         end
