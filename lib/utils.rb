@@ -71,8 +71,9 @@ module Utils
       def get_bad_hex(toml_file)
         toml_file.value_arr[3] = 'hexadecimal'
         value = toml_file.value_arr[0]
+        value.slice!(0) if /[\-+]/.match?(value[0])
         bad_char = '0'
-        if /0/.match?(value[0]) && /[xX]/.match?(value[1])
+        if /0/.match?(value[0]) && /[xX0]/.match?(value[1])
           (2..value.length).each do |i|
             bad_char = value[i]
             break if /[^a-fA-F0-9]/.match?(value[i])
@@ -90,6 +91,7 @@ module Utils
       def get_bad_oct(toml_file)
         toml_file.value_arr[3] = 'octal'
         value = toml_file.value_arr[0]
+        value.slice!(0) if /[\-+]/.match?(value[0])
         bad_char = '0'
         if /0/.match?(value[0]) && /[oO]/.match?(value[1])
           (2..value.length).each do |i|
@@ -110,6 +112,7 @@ module Utils
       def get_bad_bin(toml_file)
         toml_file.value_arr[3] = 'binary'
         value = toml_file.value_arr[0]
+        value.slice!(0) if /[\-+]/.match?(value[0])
         bad_char = '0'
         if /0/.match?(value[0]) && /[bB]/.match?(value[1])
           (2..value.length).each do |i|
@@ -132,7 +135,7 @@ module Utils
     # This class is used to determin what type of value is the current line
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
-    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=[\s+\-.]?+[0-9\-+.]/)
+    @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*[\s+\-.]?+[0-9\-+.]/)
 
     class << self
       def detect_comment

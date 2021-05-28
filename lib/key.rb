@@ -33,10 +33,20 @@ module Key
   # Class for Integeres including binary, hex, and octal
   class KeyInt
     class << self
-      def which_type?(toml_file)
+      # Checks if index two exits
+      def units?(toml_file)
         value = toml_file.value_arr[0]
-        sig = value[0] + value[1] + value[2]
-        case sig # Returns what integer type
+        index2 = '0'
+        index2 = value[2] unless value[2].nil?
+        sig = value[0] + value[1] + index2
+        #sig = value[0] + value[1] + value[2]
+        sig
+      end
+
+      # Returns what integer type
+      def which_type?(toml_file)
+        sig = units?(toml_file)
+        case sig
         when /[xX]/
           Utils::Slice.get_bad_hex(toml_file)
         when /[oO]/
@@ -54,6 +64,7 @@ module Key
         KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::ZeroPaddingError => e
         toml_file.new_error
+        Message::Error.display_error(toml_file, e.message)
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
         Message::Error.display_error(toml_file, e.message(toml_file))
