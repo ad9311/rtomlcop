@@ -9,9 +9,9 @@ module Comment
         CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
         toml_file.new_error
-        comment = '#'
-        comment.concat(toml_file.value_arr[1])
-        Message::Error.display_error(toml_file, e.message, comment) # Calls message if an error has been raised
+        # comment = '#'
+        # comment.concat(toml_file.value_arr[1])
+        # Message::Error.display_error(toml_file, e.message, comment) # Calls message if an error has been raised
       end
     end
 

@@ -10,10 +10,9 @@ module Toml
       # value_arr hold data regarding the current analized line.
       # index 0 holds the varible numeric value
       # index 1 holds comment line
-      # index 2 holds variable name
-      # index 3 holds type of variable
-      # index 4 holds string content
-      @value_arr = [nil, nil, nil, nil, nil]
+      # index 2 holds line without comments
+      # index 3 holds type of numeric variable
+      @value_arr = [nil, nil, nil, nil]
       @error_amount = 0
     end
 

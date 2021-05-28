@@ -11,8 +11,7 @@ module Key
         KeyStringHandler.unclosed?(toml_file)
       rescue KeyStringHandler::UnclosedStringError => e
         toml_file.new_error
-        str = toml_file.value_arr[4]
-        Message::Error.display_error(toml_file, e.message, str) # Calls message if an error has been raised
+        Message::Error.display_error(toml_file, e.message)
       end
     end
 
@@ -55,16 +54,9 @@ module Key
         KeyIntHandler.invalid_int(toml_file)
       rescue KeyIntHandler::ZeroPaddingError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
       rescue KeyIntHandler::InvalidIntError => e
         toml_file.new_error
-
-        Utils::Slice.get_var_name(toml_file) # Saves variable into toml_file.value[3]
-        name = toml_file.value_arr[2] # Gets the current incorrect integer value
-        bad_char = which_type?(toml_file) # Gets what incorrect input is
-        type = toml_file.value_arr[3] # Gets what type of integer is
-        msg = "#{e.message} #{type} variable \"#{name[0]}\". Begining at \"#{bad_char}\""
-        Message::Error.display_error(toml_file, msg, toml_file.value_arr[0]) # Display error message with the info above
+        Message::Error.display_error(toml_file, e.message(toml_file))
       end
     end
 
@@ -81,13 +73,16 @@ module Key
 
       class ZeroPaddingError < StandardError
         def message
-          'Zero padding integer.'
+          'Zero padding integer found.'
         end
       end
 
       class InvalidIntError < ArgumentError
-        def message
-          'Invalid integer value for'
+        def message(toml_file)
+          char = KeyInt.which_type?(toml_file)
+          type = toml_file.value_arr[3]
+          msg = "Invalid #{type} value. \"#{char}\" character not permitted."
+          msg
         end
       end
     end
@@ -100,7 +95,7 @@ module Key
         KeyFloat.invalid_float(toml_file) # Checks for incorrect float
       rescue KeyFloat::InvalidFloatError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
+        Message::Error.display_error(toml_file, e.message)
       end
     end
     # Calls method to parse possible incorrect float
@@ -125,7 +120,7 @@ module Key
         KeyDate.invalid_date(toml_file)
       rescue KeyDate::InvalidDateError => e
         toml_file.new_error
-        Message::Error.display_error(toml_file, e.message, toml_file.value_arr[0])
+        Message::Error.display_error(toml_file, e.message)
       end
     end
 

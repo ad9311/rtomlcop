@@ -2,16 +2,14 @@ module Message
   # Class for displaying messages
   class Error
     @at_line = "\nError at line".freeze
-    @loc = 'Check =>'.freeze
+    @loc = '==>'.freeze
     class << self
       # Displays error for the current line
-      def display_error(toml_file, e_message, pos = nil)
+      def display_error(toml_file, e_msg)
         line = toml_file.line_number
-        if pos.nil?
-          puts " #{@at_line} #{line}: #{e_message}"
-        else
-          puts " #{@at_line} #{line}: #{e_message}\n\t#{@loc} #{pos}"
-        end
+        var = toml_file.value_arr[2]
+        msg = "#{@at_line} #{line}: #{e_msg}\n\t #{@loc} #{var}"
+        puts msg
       end
 
       # Display error for no file

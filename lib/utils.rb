@@ -16,7 +16,6 @@ module Utils
 
       # Returns the type of value i.e 'float'
       def get_value(toml_file)
-        slice_value(toml_file)
         num = toml_file.value_arr[0]
         type = nil
         if !/[xX:]/.match?(num) && /[eE.]/.match?(num)
@@ -37,14 +36,16 @@ module Utils
         k.length.times do |i|
           l = i if k[i].include?('"')
         end
-
         toml_file.value_arr[1] = k[l + 1] unless k[l + 1].nil?
       end
 
-      # Saves the variable name into toml_file instance
-      def get_var_name(toml_file)
-        var = toml_file.line.split(/[\s=]+[\w\W]+/)
-        toml_file.value_arr[2] = var
+      # Joins together variable name and value
+      def join_var_val(toml_file)
+        slice_value(toml_file)
+        line = toml_file.line
+        value = toml_file.value_arr[0]
+        var = line.split(value)
+        toml_file.value_arr[2] = var[0] + value
       end
 
       # Method that finds incorrect character in a decimal integer
