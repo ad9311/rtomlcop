@@ -32,7 +32,6 @@ module Key
 
   class KeyInt
     class << self
-
       private
 
       def units?(toml_file)

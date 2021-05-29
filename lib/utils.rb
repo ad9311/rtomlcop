@@ -5,7 +5,6 @@ module Utils
   class Slice
     @numeric_type = %w[int float date_time].freeze
     class << self
-
       private
 
       def slice_value(toml_file)
