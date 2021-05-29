@@ -1,21 +1,20 @@
 module Message
   # Class for displaying messages
   class Error
-    @at_line = "\nError at line".freeze
     @loc = '==>'.freeze
     class << self
       # Displays error for the current line
       def display_error(toml_file, e_msg)
         line = toml_file.line_number
         var = toml_file.value_arr[2]
-        msg = "#{@at_line} #{line}: #{e_msg}\n\t #{@loc} #{var}"
+        msg = "\n [#{line}]: #{e_msg}\n\t#{@loc} #{var}"
         puts msg
       end
 
       def display_comment_error(toml_file, e_msg)
         line = toml_file.line_number
         var = toml_file.value_arr[1]
-        msg = "#{@at_line} #{line}: #{e_msg}\n\t #{@loc} #{var}"
+        msg = "\n [#{line}]: #{e_msg}\n\t#{@loc} #{var}"
         puts msg
       end
 
@@ -41,7 +40,7 @@ module Message
     @doted_line = ".....................................\n\n".freeze
     class << self
       def display_check(file)
-        puts "Checking for errors in #{file}"
+        puts "Searching for errors in #{file}"
       end
 
       def display_dotted_line
@@ -52,9 +51,9 @@ module Message
         puts "\n#{toml_file.error_amount} errors found in #{file}"
       end
 
-      # def display_error_count(toml_file, file)
-      #   puts "\nFound: #{toml_file} errors in #{file} files."
-      # end
+      def display_total_errors(toml_file, file)
+        puts "Found: #{toml_file.total_errors} errors in #{file} files."
+      end
     end
   end
 end
