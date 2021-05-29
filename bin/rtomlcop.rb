@@ -26,7 +26,6 @@ file.files.length.times do |f|
     toml_file.next_line
   end
   Message::Info.display_error_count(file.files[f], toml_file) # Displays number of errors
-  Message::Info.display_dotted_line
   toml_file.add_errors
   toml_file.clear
 end
