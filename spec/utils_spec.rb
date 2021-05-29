@@ -1,7 +1,6 @@
 require_relative '../lib/toml_file'
 require_relative '../lib/utils'
 
-# Test for int
 describe Utils do
   let(:toml_file) { Toml::File.new }
   before 'Add new line to toml_file instance' do
@@ -25,7 +24,6 @@ describe Utils do
   end
 end
 
-# test for float
 describe Utils do
   let(:toml_file) { Toml::File.new }
   before 'Add new line to toml_file instance' do

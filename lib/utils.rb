@@ -1,11 +1,10 @@
 require 'date'
 
+# Holds several methods to parse lines.
 module Utils
-  # Class for diferent methods needed to parse line
   class Slice
     @numeric_type = %w[int float date_time].freeze
     class << self
-      # Save the current line value into toml_file instance
 
       private
 
@@ -16,7 +15,6 @@ module Utils
 
       public
 
-      # Returns the type of value i.e 'float'
       def get_value(toml_file)
         num = toml_file.value_arr[0]
         type = nil
@@ -30,7 +28,6 @@ module Utils
         type
       end
 
-      # Save the comment content into toml_file instance
       def get_comment(toml_file)
         line = toml_file.line
         prev = nil
@@ -46,7 +43,6 @@ module Utils
         toml_file.value_arr[1].strip!
       end
 
-      # Joins together variable name and value
       def join_var_val(toml_file)
         slice_value(toml_file)
         line = toml_file.line
@@ -55,7 +51,6 @@ module Utils
         toml_file.value_arr[2] = var[0] + value unless value.nil?
       end
 
-      # Method that finds incorrect character in a decimal integer
       def get_bad_int(toml_file)
         toml_file.value_arr[3] = 'integer'
         value = toml_file.value_arr[0]
@@ -74,7 +69,6 @@ module Utils
         bad_char
       end
 
-      # Method that finds incorrect character in a hexadecimal integer
       def get_bad_hex(toml_file)
         toml_file.value_arr[3] = 'hexadecimal'
         value = toml_file.value_arr[0]
@@ -94,7 +88,6 @@ module Utils
         bad_char
       end
 
-      # Method that finds incorrect character in a octal integer
       def get_bad_oct(toml_file)
         toml_file.value_arr[3] = 'octal'
         value = toml_file.value_arr[0]
@@ -114,7 +107,6 @@ module Utils
         bad_char
       end
 
-      # Method that finds incorrect character in a binary integer
       def get_bad_bin(toml_file)
         toml_file.value_arr[3] = 'binary'
         value = toml_file.value_arr[0]
@@ -137,11 +129,10 @@ module Utils
   end
 
   class Element
-    # This class is used to determin what type of value is the current line
     @is_comment = Regexp.new(/#/)
     @is_string = Regexp.new(/^[a-zA-Z0-9\-_\s].+=*"/)
     @is_numeric = Regexp.new(/^[a-zA-Z0-9\-_]+\s?+=\s?+[0-9][\w\W]+[^"]$/)
-    @is_bolean = Regexp.new(/.+=\s*(?i)(true|false)$/)
+    @is_boolean = Regexp.new(/.+=\s*(?i)(true|false)$/)
 
     class << self
       def detect_comment
@@ -157,13 +148,12 @@ module Utils
       end
 
       def detect_bool
-        @is_bolean
+        @is_boolean
       end
     end
   end
 
   class Error
-    # This class parses diferent values a returns them so they are raised in Key module
     @no_ws = Regexp.new('\s*#[^\s].+')
     @unclosed = Regexp.new('".+"')
     @wrong_bool = Regexp.new('(true|false)')

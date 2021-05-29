@@ -1,11 +1,10 @@
 require 'colorized_string'
 
+# Module dedicated to output all messages
 module Message
-  # Class for displaying messages
   class Error
     @loc = '==>'.freeze
     class << self
-      # Displays error for the current line
       def display_error(toml_file, e_msg)
         line = "\n [#{toml_file.line_number}]: "
         var = toml_file.value_arr[2].to_s
@@ -33,7 +32,6 @@ module Message
   class Warning
     class << self
       def no_toml(file_name)
-        # puts "Warning! \"#{file_name}\" is not a toml file. Program will continue but expect errors."
         print ColorizedString["\nWarning! "].yellow.on_black
         print ColorizedString["\"#{file_name}\" "].red.on_black
         print ColorizedString["is not a toml file. Program will continue but expect errors.\n"].yellow.on_black

@@ -2,10 +2,10 @@ require_relative '../lib/toml_file'
 require_relative '../lib/utils'
 
 describe 'RTomlCop' do
-  let(:toml_file) { Toml::File.new } # initialized a new toml_file instance
-  let(:rgx_comment) { Utils::Element.detect_comment } # Regexr to detect comments
-  let(:rgx_string) { Utils::Element.detect_string } # Regex to detect double quoted strings
-  let(:rgx_num) { Utils::Element.detect_numeric } # Regex to detect numeric values (integers, floats & dates)
+  let(:toml_file) { Toml::File.new }
+  let(:rgx_comment) { Utils::Element.detect_comment }
+  let(:rgx_string) { Utils::Element.detect_string }
+  let(:rgx_num) { Utils::Element.detect_numeric }
 
   before 'Adds a new line to toml_file instance' do
     toml_file.line_to_arr('int = 100 # this is a int')

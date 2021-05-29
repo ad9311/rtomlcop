@@ -1,5 +1,6 @@
 require_relative '../lib/message'
 
+# Dedicated module to handle directory accessing.
 module Directory
   class FileName
     attr_reader :args, :files, :full_dir

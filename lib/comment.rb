@@ -1,12 +1,12 @@
 require_relative '../lib/utils'
 require_relative '../lib/message'
 
+# Dedicate module for comments.
 module Comment
   class Oneline
     class << self
       attr_accessor :error_pos
 
-      # Method to check for a required space after # in a comment
       def space?(toml_file)
         CommentHandler.check_whitespace(toml_file)
       rescue CommentHandler::NoWhitespaceError => e
@@ -31,7 +31,6 @@ module Comment
         res
       end
 
-      # If no space after # ina comment raise an error
       def self.check_whitespace(toml_file)
         res = check_pos(toml_file)
         Oneline.error_pos = res
