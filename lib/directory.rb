@@ -41,7 +41,7 @@ module Directory
     def check_for_file
       no_file
       file_exits?
-      if @args[0].include?('.toml')
+      if /\.toml$/.match?(@args[0])
         dir = Dir.pwd
         @files[0] = @args[0]
         @full_dir[0] = "#{dir}/#{@files[0]}"

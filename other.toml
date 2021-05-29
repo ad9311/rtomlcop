@@ -1,0 +1,14 @@
+###############################
+#                             #
+# This is a toml file example #
+#                             #
+###############################
+
+# Strings
+str1 = "Hello World!"
+str2 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+str3 = 2.0"
+
+# Booleans
+bool1 = true
+bool2 = False#end of file

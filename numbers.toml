@@ -1,0 +1,35 @@
+###############################
+#                             #
+# This is a toml file example #
+#                             #
+###############################
+
+# Decimal
+int1 = 067
+int2 = -45
+int3 = +100_000_000 # integers can have underscore separators
+
+# Hexadecimal
+hex1 = 0xff
+hex2 = 0XC1C1 # uppercase letters are allowed
+hex3 = 0xfyf20
+
+# Octal
+oct1 = 0o777
+oct3 = -0O744 # negative octals are allowed
+oct2 = 0o1234678
+
+# Binary
+bin1 = 0b01010
+bin2 = 0b0111001001110100011011110110110101101100011000110110111101110000 # This is rtomlcop in binary
+bin3 = 0b010111020101
+
+# Floats
+float1 = 3.1415926535 # this is pi number
+float2 = -23e3 # scientific notation
+float3 = 3.re7
+
+# Dates & time
+date1 = 1993-01-01 # my birthday
+time1 = 12:00:45
+date2 = 1756-23-05
