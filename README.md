@@ -104,7 +104,8 @@ To begin using RTomlCop follow these steps:
 Once inside the root folder run the following command `bundle install` to install the necessary dependencies.</br>
 Then inspect files following these two options:
 - Run RTomlCop `./bin/rtomlcop.rb --all` to inspect all files that contain the .toml extension. **--all keyword must have two dashes.**
-- Alternatively you can inspect individual files `./bin/rtomlcop.rb <name_of_file>` i.e `./bin/rtomlcop.rb sample.toml` to inspect the provided sample file.</br>
+- Alternatively you can inspect individual files `./bin/rtomlcop.rb <name_of_file>` i.e `./bin/rtomlcop.rb sample.toml` to inspect the provided sample file.</br></br>
+Follow [Microverse Ruby Capstone Project - RTomlCop](https://youtu.be/b6LrwOET28I) for a video tutorial.</br><br>
 **Note:**</br>
 **If a file that does not exist is provided or no .toml files are present then the program will terminate.**</br>
 **It is possible to inspect files that do not have the .toml extension but keep in mind that unexpected results may appear.**</br>
