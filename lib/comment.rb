@@ -25,7 +25,7 @@ module Comment
         if inx == 1
           res = 'before' if comment[0] != ' '
           res = 'after' if comment[2] != ' '
-        elsif comment[1] != ' '
+        elsif comment[1] != ' ' && comment[1] != '#'
           res = 'after'
         end
         res
@@ -40,7 +40,7 @@ module Comment
 
       class NoWhitespaceError < StandardError
         def message(error_pos)
-          "Missing whitespace #{error_pos} # in comment."
+          "Missing whitespace #{error_pos} # symbol in comment."
         end
       end
     end

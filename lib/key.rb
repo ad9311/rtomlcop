@@ -1,6 +1,7 @@
 require_relative '../lib/utils'
 require_relative '../lib/message'
 require 'date'
+require 'colorize'
 
 module Key
   # Class for string values
@@ -94,9 +95,9 @@ module Key
 
       class InvalidIntError < ArgumentError
         def message(toml_file)
-          char = KeyInt.which_type?(toml_file)
+          char = "\"#{KeyInt.which_type?(toml_file)}\"".red
           type = toml_file.value_arr[3]
-          msg = "Invalid #{type} value. \"#{char}\" character not permitted."
+          msg = "Invalid #{type} value. #{char} character not permitted."
           return msg unless msg.nil?
         end
       end

@@ -43,6 +43,7 @@ module Utils
         end
         toml_file.value_arr[1] = after.join if prev.nil?
         toml_file.value_arr[1] = prev.concat(after.join) unless prev.nil?
+        toml_file.value_arr[1].strip!
       end
 
       # Joins together variable name and value

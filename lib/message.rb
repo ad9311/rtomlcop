@@ -60,9 +60,9 @@ module Message
 
       def display_error_count(file, toml_file)
         if toml_file.error_amount.zero?
-          print ColorizedString["\n #{toml_file.error_amount} errors found in "].green
+          print ColorizedString["\n #{toml_file.error_amount} error(s) found in "].green
         else
-          print ColorizedString["\n #{toml_file.error_amount} errors found in "].red
+          print ColorizedString["\n #{toml_file.error_amount} error(s) found in "].red
         end
         print ColorizedString["\"#{file}\" \n"].blue
       end
