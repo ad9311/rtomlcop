@@ -1,2 +1,3 @@
 # .gitignore
-tests/ 
+tests/
+*.txt
