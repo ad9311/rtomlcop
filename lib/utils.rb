@@ -11,7 +11,7 @@ module Utils
 
       def slice_value(toml_file)
         k = toml_file.line.split(/[#=]/)
-        toml_file.value_arr[0] = k[1].strip
+        toml_file.value_arr[0] = k[1].strip unless k[1].nil?
       end
 
       public
@@ -52,7 +52,7 @@ module Utils
         line = toml_file.line
         value = toml_file.value_arr[0]
         var = line.split(value)
-        toml_file.value_arr[2] = var[0] + value
+        toml_file.value_arr[2] = var[0] + value unless value.nil?
       end
 
       # Method that finds incorrect character in a decimal integer

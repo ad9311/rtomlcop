@@ -8,7 +8,7 @@ module Directory
       @args = []
       @files = []
       @full_dir = []
-      ARGV.each do |arg| # Save file name as an arg
+      ARGV.each do |arg|
         @args << arg
       end
       mode
@@ -25,7 +25,7 @@ module Directory
     end
 
     def find_files
-      Dir.glob('*.txt').each do |f|
+      Dir.glob('*.toml').each do |f|
         @files << f
       end
       if @files.length.zero?
@@ -58,7 +58,8 @@ module Directory
 
     def file_exits?
       e = File.exist?(@args[0])
-      raise FileNotExisting unless e
+      d = File.directory?(@args[0])
+      raise FileNotExisting unless e && !d
     end
 
     def no_file
@@ -67,7 +68,7 @@ module Directory
 
     class FileNotExisting < StandardError
       def message
-        'Invalid file name or file does not exit.'
+        'Error: file not found or it is a directory'
       end
     end
 
