@@ -19,27 +19,42 @@ module Message
         puts msg
       end
 
-      # Display error for no file
-      def no_such_file(message)
-        puts message
-      end
-
-      # Display error for no argument
-      def no_argument(message)
+      def file_error(message)
         puts message
       end
     end
   end
 
-  class Info
+  class Warning
     class << self
-      def display_check(file)
-        puts "Checking for errors in #{file.file_name}"
+      def no_toml(file_name)
+        puts "Warning! \"#{file_name}\" is not a toml file. Program will continue but expect errors."
       end
 
-      def display_error_count(toml_file)
-        puts "\nNumber of errors found: #{toml_file.error_amount}"
+      def no_files
+        puts 'No toml files found.'
       end
+    end
+  end
+
+  class Info
+    @doted_line = ".....................................\n\n".freeze
+    class << self
+      def display_check(file)
+        puts "Checking for errors in #{file}"
+      end
+
+      def display_dotted_line
+        puts @doted_line
+      end
+
+      def display_error_count(file, toml_file)
+        puts "\n#{toml_file.error_amount} errors found in #{file}"
+      end
+
+      # def display_error_count(toml_file, file)
+      #   puts "\nFound: #{toml_file} errors in #{file} files."
+      # end
     end
   end
 end

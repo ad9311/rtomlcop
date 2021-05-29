@@ -2,39 +2,67 @@ require_relative '../lib/message'
 
 module Directory
   class FileName
-    attr_reader :working_dir, :file_name, :full_dir
+    attr_reader :args, :files, :full_dir
 
     def initialize
-      arg = []
-      ARGV.each do |a| # Save file name as an arg
-        arg << a
+      @args = []
+      @files = []
+      @full_dir = []
+      ARGV.each do |arg| # Save file name as an arg
+        @args << arg
       end
-      FileName.get_find(arg[0]) # Checks if file exist or if it wasn't input
-      @file_name = arg[0]
-      @working_dir = Dir.pwd
-      @full_dir = "#{@working_dir}/#{@file_name}"
+      mode
     end
-    class << self
-      # If file does not exits or file not input then exit script
-      def get_find(file_path)
-        FileName.no_file(file_path)
-        FileName.file_exits?(file_path)
-      rescue FileName::NoArgument => e
-        Message::Error.no_argument(e.message)
-        exit!
-      rescue FileName::FileNotExisting => e
-        Message::Error.no_such_file(e.message)
-        exit!
+
+    private
+
+    def mode
+      if @args[0] == '--all'
+        find_files
+      else
+        check_for_file
       end
     end
 
-    def self.file_exits?(arg)
-      e = File.exist?(arg)
+    def find_files
+      Dir.glob('*.txt').each do |f|
+        @files << f
+      end
+      if @files.length.zero?
+        Message::Warning.no_files
+        exit!
+      end
+      dir = Dir.pwd
+      @files.length.times do |d|
+        @full_dir << "#{dir}/#{@files[d]}"
+      end
+    end
+
+    def check_for_file
+      no_file
+      file_exits?
+      if @args[0].include?('.toml')
+        dir = Dir.pwd
+        @files[0] = @args[0]
+        @full_dir[0] = "#{dir}/#{@files[0]}"
+      else
+        @files[0] = @args[0]
+        dir = Dir.pwd
+        @full_dir[0] = "#{dir}/#{@files[0]}"
+        Message::Warning.no_toml(@files[0])
+      end
+    rescue NoArgument, FileNotExisting => e
+      Message::Error.file_error(e.message)
+      exit!
+    end
+
+    def file_exits?
+      e = File.exist?(@args[0])
       raise FileNotExisting unless e
     end
 
-    def self.no_file(arg)
-      raise NoArgument if arg.nil?
+    def no_file
+      raise NoArgument if @args[0].nil?
     end
 
     class FileNotExisting < StandardError
