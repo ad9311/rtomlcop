@@ -9,5 +9,5 @@ central.scan
 puts '-------------'
 puts '/File Report/'
 puts "Last Code: #{central.last_code}"
-puts central.report
+p central.report
 puts '-------------'

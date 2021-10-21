@@ -16,7 +16,9 @@ class ValueType
 
   def insp_value(line)
     @type = of_type(line.fetch(:value)) unless on_multi?(@last_code)
-    @last_code = switch_type(line, @type)
+    resp = switch_type(line, @type)
+    @last_code = resp.last
+    resp
   end
 
   private

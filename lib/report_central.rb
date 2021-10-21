@@ -9,7 +9,7 @@ class ReportCentral
 
   def initialize(file)
     @file = file
-    @report = []
+    @offences = []
     @last_code = OK
 
     @value_type = ValueType.new
@@ -22,6 +22,7 @@ class ReportCentral
       call_insp(line)
       num += 1
     end
+    @report = @offences
   end
 
   def call_insp(line)
@@ -31,20 +32,19 @@ class ReportCentral
   private
 
   def for_value(line)
-    code = @value_type.insp_value(line)
-    on_multi = MULTI.include?(code)
+    resp = @value_type.insp_value(line)
+    on_multi = MULTI.include?(resp.last)
     if on_multi
-      @last_code = code
+      @last_code = resp.last
       return
     end
-
-    offence = new_offence(line, code)
-    @report << offence unless offence.nil?
+    new_offence(resp)
   end
 
-  def new_offence(line, code)
-    @last_code = code
-    ok = code == OK
-    { at: line.fetch(:num), code: code } unless ok
+  def new_offence(resp)
+    return if resp.last == OK
+
+    @last_code = resp.last
+    @offences << [*@offences, *resp]
   end
 end

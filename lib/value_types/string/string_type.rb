@@ -13,7 +13,9 @@ class StringType
   end
 
   def insp_str(line)
-    @last_code = switch_str_type(line)
+    resp = switch_str_type(line)
+    @last_code = resp.last
+    resp
   end
 
   private

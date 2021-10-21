@@ -12,7 +12,7 @@ class BasicString
 
   def insp_bs(line)
     concat_bs(line)
-    switch_mlbs(@str)
+    arr_resp(switch_mlbs(@str))
   end
 
   private
@@ -36,6 +36,12 @@ class BasicString
     end
   end
 
+  def arr_resp(resp)
+    return [resp] unless resp.is_a?(Array)
+
+    resp
+  end
+
   def mlcode?
     MULTI.include?(@last_code)
   end
@@ -45,11 +51,13 @@ class BasicString
 
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
-    stack = []
-    code = nil
-    s_str = chop_ends(str)
-    s_str.size.times do |ind|
-    end
+    # stack = []
+    # resp = []
+    # s_str = chop_ends(str)
+    # s_str.size.times do |ind|
+    #   chk = chk_esc_char(s_str, ind, stack.last)
+    #   resp << chk unless chk.nil?
+    # end
     OK
   end
 end

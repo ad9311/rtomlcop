@@ -6,7 +6,7 @@ module BsUtils
   include Codes::Status
   include Codes::Offence
 
-  SLASH = '\\'
+  SLASH = '\\'.freeze
   DBQ = '"'.freeze
   ESC_CHARS = %w[b t n f r u U " \\].freeze
 
