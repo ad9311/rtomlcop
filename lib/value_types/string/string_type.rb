@@ -15,7 +15,7 @@ class StringType
   def switch_str_type(line)
     case basic_string?(line)
     when true
-      :TODO
+      :ODOT
     else
       :TODO
     end

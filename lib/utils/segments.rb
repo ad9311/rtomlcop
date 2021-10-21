@@ -3,32 +3,39 @@ require_relative './regexp'
 module Segmemts
   include RegExp::Slices
 
-  def fragment_line(raw_line)
-    table = table_fragment(raw_line)
-    key = key_fragment(raw_line)
-    value = value_fragment(raw_line)
-    comment = comment_fragment(raw_line)
-    [table, key, value, comment]
+  def segment_line(line_pack)
+    table = table_segment(line_pack[1])
+    key = key_segment(line_pack[1])
+    value = value_segment(line_pack[1])
+    comment = comment_segment(line_pack[1])
+    {
+      num: line_pack[0],
+      self: line_pack[1],
+      table: table,
+      key: key,
+      value: value,
+      comment: comment
+    }
   end
 
   private
 
-  def table_fragment(raw_line)
-    raw_line.slice(TABLE)
+  def table_segment(line)
+    line.slice(TABLE)
   end
 
-  def key_fragment(raw_line)
-    slice = raw_line.slice(KEY)
+  def key_segment(line)
+    slice = line.slice(KEY)
     slice&.lstrip
   end
 
-  def value_fragment(raw_line)
-    slice = raw_line.slice(VALUE)
+  def value_segment(line)
+    slice = line.slice(VALUE)
     slice&.strip
   end
 
-  def comment_fragment(raw_line)
-    raw_line.strip
-    raw_line.slice(COMMENT)
+  def comment_segment(line)
+    line.strip
+    line.slice(COMMENT)
   end
 end
