@@ -1,4 +1,4 @@
-require_relative '../lib/nativ_types/value_type'
+require_relative '../lib/value_types/value_type'
 class ReportCentral
   def initialize
     @report = []

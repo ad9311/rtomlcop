@@ -1,4 +1,4 @@
-require_relative './utils/regexp'
+require_relative './regexp'
 
 module Segmemts
   include RegExp::Slices
