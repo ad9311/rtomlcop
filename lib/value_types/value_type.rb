@@ -1,5 +1,6 @@
 require_relative '../utils/regexp'
 require_relative '../utils/codes'
+require_relative './string/string_type'
 
 class ValueType
   include RegExp::ValueFormat
@@ -8,18 +9,25 @@ class ValueType
 
   def initialize
     @type = nil
-    @offence = OK
+    @last_code = OK
   end
 
   def insp_value(line)
-    offence = nil
-    @type = of_type(line.fetch(:value))
-    case @type
+    @type = of_type(line.fetch(:value)) unless on_multi?(@last_code)
+    @last_code = switch_type(line, @type)
+  end
+
+  def switch_type(line, type)
+    case type
     when STR
-      offence = 'String Type Here'
+      str = StringType.new
+      str.insp_str(line)
     else
-      offence = UNDEF
+      UNDEF
     end
-    @offences = offence unless offence.nil?
+  end
+
+  def on_multi?(last_code)
+    MULTI.include?(last_code)
   end
 end

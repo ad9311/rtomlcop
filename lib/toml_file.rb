@@ -16,7 +16,7 @@ class TomlFile
         line_fragments = fragment_line(raw_line)
         line = arrange_line(num, raw_line, line_fragments)
         report = central.call_insp(line)
-        @reports << report unless report.nil?
+        @reports = report unless report.nil?
       end
       num += 1
     end
