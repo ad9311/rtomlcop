@@ -5,3 +5,4 @@ file = '/home/adiaz/Documents/GitHub/rtomlcop/public/sample.toml'
 
 toml = TomlFile.new
 toml.scan(file)
+puts toml.reports

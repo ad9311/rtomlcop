@@ -1,5 +1,5 @@
-require_relative '../lib/report_central'
-require_relative '../lib/segments'
+require_relative './report_central'
+require_relative './segments'
 class TomlFile
   include Segmemts
   attr_reader :reports

@@ -1,12 +1,12 @@
-require_relative '../lib/utils/codes'
+require_relative '../lib/nativ_types/value_type'
 class ReportCentral
-  include Codes::Status
-
   def initialize
     @report = []
+    @value_type = ValueType.new
   end
 
   def call_insp(line)
-    @report
+    offence_codes = []
+    offence_codes << @value_type.insp_value(line)
   end
 end
