@@ -10,6 +10,8 @@ class ValueType
   def initialize
     @type = nil
     @last_code = OK
+
+    @str = StringType.new
   end
 
   def insp_value(line)
@@ -17,11 +19,12 @@ class ValueType
     @last_code = switch_type(line, @type)
   end
 
+  private
+
   def switch_type(line, type)
     case type
     when STR
-      str = StringType.new
-      str.insp_str(line)
+      @str.insp_str(line)
     else
       UNDEF
     end
