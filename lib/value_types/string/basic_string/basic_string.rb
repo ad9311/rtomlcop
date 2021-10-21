@@ -1,5 +1,6 @@
 require_relative '../../../utils/codes'
 require_relative './bs_utils'
+require_relative '../../../utils/offence'
 
 class BasicString
   include Codes::Status
@@ -7,15 +8,27 @@ class BasicString
 
   def initialize
     @str = nil
+    @last_lnum = nil
+    @first_lnum = nil
     @last_code = OK
   end
 
   def insp_bs(line)
+    # incr_bs_lnum(line)
     concat_bs(line)
-    arr_resp(switch_mlbs(@str))
+    resp = arr_bs_resp(switch_mlbs(@str))
+    p @last_code
+    resp
   end
 
   private
+
+  def incr_bs_lnum(line)
+    ok = @last_code == OK
+    return @first_lnum = line.fetch(:lnum) if ok
+
+    @last_lnum = @first_lnum + 1
+  end
 
   def concat_bs(line)
     @str = line.fetch(:value) unless MULTI.include?(@last_code)
@@ -36,9 +49,12 @@ class BasicString
     end
   end
 
-  def arr_resp(resp)
-    return [resp] unless resp.is_a?(Array)
-
+  def arr_bs_resp(resp)
+    unless resp.is_a?(Array)
+      @last_code = OK unless MULTI.include?(resp)
+      return [resp]
+    end
+    @last_code = OK
     resp
   end
 
@@ -52,11 +68,10 @@ class BasicString
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
     # stack = []
-    # resp = []
     # s_str = chop_ends(str)
     # s_str.size.times do |ind|
     #   chk = chk_esc_char(s_str, ind, stack.last)
-    #   resp << chk unless chk.nil?
+    #   stack << { ind: ind, code: chk } unless chk.nil?
     # end
     OK
   end

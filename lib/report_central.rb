@@ -16,11 +16,11 @@ class ReportCentral
   end
 
   def scan
-    num = 1
+    lnum = 1
     File.foreach(@file) do |rl|
-      line = segment_line([num, rl])
+      line = segment_line([lnum, rl])
       call_insp(line)
-      num += 1
+      lnum += 1
     end
     @report = @offences
   end
@@ -42,9 +42,9 @@ class ReportCentral
   end
 
   def new_offence(resp)
+    @last_code = resp.last
     return if resp.last == OK
 
-    @last_code = resp.last
     @offences << [*@offences, *resp]
   end
 end

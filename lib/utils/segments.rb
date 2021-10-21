@@ -9,7 +9,7 @@ module Segmemts
     value = value_segment(line_pack[1])
     comment = comment_segment(line_pack[1])
     {
-      num: line_pack[0],
+      lnum: line_pack[0],
       self: line_pack[1],
       table: table,
       key: key,

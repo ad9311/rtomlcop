@@ -13,7 +13,9 @@ module Codes
 
   module Offence
     # String
+    # Minor Offences
     # Basic String
     INV_ESC_CHAR = :invescchar # Invalid escaped character
+    INV_UNI_FORM = :invuniform # Invalid unicode format
   end
 end
