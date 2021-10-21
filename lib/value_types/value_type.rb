@@ -8,9 +8,7 @@ class ValueType
 
   def initialize
     @type = nil
-    @offences = []
-    @last_code = nil
-    @multi_codes = %i[]
+    @offence = OK
   end
 
   def insp_value(line)
@@ -18,20 +16,10 @@ class ValueType
     @type = of_type(line.fetch(:value))
     case @type
     when STR
-      code = '...'
-      offence = new_offence(line.fetch(:num), code)
+      offence = 'String Type Here'
     else
-      offence = new_offence(line.fetch(:num), UNDEF)
+      offence = UNDEF
     end
-    @offences << offence unless offence.nil?
-  end
-
-  private
-
-  def new_offence(num, code)
-    @last_code = code
-    multi = @multi_codes.include?(@last_code)
-    ok = code == OK
-    { at_line: num, code: code } unless multi || ok
+    @offences = offence unless offence.nil?
   end
 end

@@ -22,6 +22,8 @@ class TomlFile
     end
   end
 
+  private
+
   def arrange_line(num, raw_line, line_fragments)
     {
       num: num,
