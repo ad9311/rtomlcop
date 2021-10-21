@@ -10,9 +10,13 @@ module BsUtils
     false
   end
 
-  def bs_closed?(str)
-    two = CLSLBS.match?(str)
-    six = CLMLBS.match?(str)
-    return true if two || six
+  def empty_mlbs?(str)
+    return true if CLMLBS.match?(str)
+
+    false
+  end
+
+  def mlbs_closed?(str)
+    MLBSEND.match?(str)
   end
 end

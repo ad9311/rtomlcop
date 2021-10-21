@@ -12,8 +12,7 @@ class BasicString
 
   def insp_bs(line)
     concat_bs(line)
-    p mlbs?(@str)
-    :ML
+    switch_mlbs(@str)
   end
 
   private
@@ -24,5 +23,28 @@ class BasicString
 
     str = line.fetch(:self)
     @str.concat(str)
+  end
+
+  def switch_mlbs(str)
+    con = mlbs?(str)
+    @last_code = MULTI_BS if con
+    case con || mlcode?
+    when true
+      insp_mlbs(str)
+    else
+      'Single Line'
+    end
+  end
+
+  def mlcode?
+    MULTI.include?(@last_code)
+  end
+
+  def insp_mlbs(str)
+    return OK if empty_mlbs?(str)
+
+    return @last_code = MULTI_BS unless mlbs_closed?(str)
+
+    OK
   end
 end

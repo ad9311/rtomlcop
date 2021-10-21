@@ -33,21 +33,21 @@ module RegExp
 
   module StringValue
     # String Type
-    # Basic String
+    # Basic String Recognition
     BSSRT = Regexp.new(/^"{1,}/).freeze
     BSEND = Regexp.new(/"{1,}(\n?)$/).freeze
 
-    # Literal String
+    # Literal String Recognition
     LSSRT = Regexp.new(/^'{1,}/).freeze
     LSEND = Regexp.new(/'{1,}(\n?)$/).freeze
 
-    # Basic Strings
+    # Basic Strings multi line and single line
     MLBSSRT = Regexp.new(/^"{3,}/).freeze
-    MLBSEND = Regexp.new(/"{3,}(\n?)$/).freeze
+    MLBSEND = Regexp.new(/[^\\]"{3,}(\n?)$/).freeze
     CLMLBS = Regexp.new(/^"{6}(\n?)$/).freeze
     CLSLBS = Regexp.new(/^"{2}(\n?)$/).freeze
 
-    # Literal Strings
+    # Literal Strings multi line and single line
     MLLSSRT = Regexp.new(/^'{3,}/).freeze
     MLLSEND = Regexp.new(/'{3,}(\n?)$/).freeze
   end

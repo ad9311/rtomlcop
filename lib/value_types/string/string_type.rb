@@ -23,7 +23,7 @@ class StringType
     when true
       @bs.insp_bs(line)
     else
-      :TODO
+      'Literal String'
     end
   end
 
