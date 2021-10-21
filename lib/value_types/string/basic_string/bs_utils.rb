@@ -29,7 +29,7 @@ module BsUtils
   end
 
   def chop_ends(str)
-    str.rstrip[3, str.size - 6]
+    str.rstrip[3, str.size - 7]
   end
 
   def chk_esc_char(str, ind, id)

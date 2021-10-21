@@ -8,26 +8,21 @@ class BasicString
 
   def initialize
     @str = nil
-    @last_lnum = nil
-    @first_lnum = nil
+    @lnum = 0
+    @last_lnum = 0
     @last_code = OK
   end
 
   def insp_bs(line)
-    # incr_bs_lnum(line)
+    incr_bs_lnum(line) if @last_code == OK
     concat_bs(line)
-    resp = arr_bs_resp(switch_mlbs(@str))
-    p @last_code
-    resp
+    arr_bs_resp(switch_mlbs(@str))
   end
 
   private
 
   def incr_bs_lnum(line)
-    ok = @last_code == OK
-    return @first_lnum = line.fetch(:lnum) if ok
-
-    @last_lnum = @first_lnum + 1
+    @lnum = line.fetch(:lnum)
   end
 
   def concat_bs(line)
@@ -67,12 +62,18 @@ class BasicString
 
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
-    # stack = []
-    # s_str = chop_ends(str)
-    # s_str.size.times do |ind|
-    #   chk = chk_esc_char(s_str, ind, stack.last)
-    #   stack << { ind: ind, code: chk } unless chk.nil?
-    # end
+    stack = []
+    s_str = chop_ends(str)
+    s_str.size.times do |ind|
+      lnum_bs_offset(s_str, ind)
+      chk = chk_esc_char(s_str, ind, stack.last)
+      stack << { ind: @lnum, code: chk } if chk.is_a?(Symbol)
+    end
+    p stack
     OK
+  end
+
+  def lnum_bs_offset(str, ind)
+    @lnum += 1 if str[ind] == "\n"
   end
 end

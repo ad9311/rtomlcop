@@ -28,7 +28,7 @@ class ValueType
     when STR
       @str.insp_str(line)
     else
-      [UNDEF]
+      [OK]
     end
   end
 

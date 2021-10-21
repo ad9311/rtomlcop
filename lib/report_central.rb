@@ -45,6 +45,6 @@ class ReportCentral
     @last_code = resp.last
     return if resp.last == OK
 
-    @offences << [*@offences, *resp]
+    @offences = [*@offences, *resp]
   end
 end
