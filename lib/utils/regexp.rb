@@ -30,4 +30,25 @@ module RegExp
     HEX_4 = Regexp.new(/[0-9a-fA-F]{4}$/).freeze
     HEX_8 = Regexp.new(/[0-9a-fA-F]{8}$/).freeze
   end
+
+  module StringValue
+    # String Type
+    # Basic String
+    BSSRT = Regexp.new(/^"{1,}/).freeze
+    BSEND = Regexp.new(/"{1,}(\n?)$/).freeze
+
+    # Literal String
+    LSSRT = Regexp.new(/^'{1,}/).freeze
+    LSEND = Regexp.new(/'{1,}(\n?)$/).freeze
+
+    # Basic Strings
+    MLBSSRT = Regexp.new(/^"{3,}/).freeze
+    MLBSEND = Regexp.new(/"{3,}(\n?)$/).freeze
+    CLMLBS = Regexp.new(/^"{6}(\n?)$/).freeze
+    CLSLBS = Regexp.new(/^"{2}(\n?)$/).freeze
+
+    # Literal Strings
+    MLLSSRT = Regexp.new(/^'{3,}/).freeze
+    MLLSEND = Regexp.new(/'{3,}(\n?)$/).freeze
+  end
 end

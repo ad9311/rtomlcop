@@ -1,9 +1,15 @@
 require_relative '../../utils/codes'
+require_relative '../../utils/regexp'
+require_relative './basic_string/basic_string'
+
 class StringType
   include Codes::Status
+  include RegExp::StringValue
 
   def initialize
     @last_code = OK
+
+    @bs = BasicString.new
   end
 
   def insp_str(line)
@@ -15,7 +21,7 @@ class StringType
   def switch_str_type(line)
     case basic_string?(line)
     when true
-      :ODOT
+      @bs.insp_bs(line)
     else
       :TODO
     end
@@ -26,10 +32,15 @@ class StringType
 
     return false if @last_code == MULTI_LS
 
-    first = line.fetch(:value)[0]
-    last = line.fetch(:value)[-1, 1]
-    double = first == '"' && last != "'"
-    return true if double
+    str = line.fetch(:value)
+    lssrt = LSSRT.match?(str)
+    lsend = LSEND.match?(str)
+    bssrt = BSSRT.match?(str)
+    bsend = BSEND.match?(str)
+
+    return true if bssrt && !lsend
+
+    return true if bsend && !lssrt
 
     false
   end

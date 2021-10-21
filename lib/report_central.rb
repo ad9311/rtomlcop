@@ -5,7 +5,7 @@ require_relative './utils/codes'
 class ReportCentral
   include Codes::Status
   include Segmemts
-  attr_reader :report
+  attr_reader :report, :last_code
 
   def initialize(file)
     @file = file

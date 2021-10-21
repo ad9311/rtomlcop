@@ -31,7 +31,7 @@ module Segmemts
 
   def value_segment(line)
     slice = line.slice(VALUE)
-    slice&.strip
+    slice&.lstrip
   end
 
   def comment_segment(line)
