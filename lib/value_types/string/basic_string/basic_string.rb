@@ -45,6 +45,11 @@ class BasicString
 
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
+    stack = []
+    code = nil
+    s_str = chop_ends(str)
+    s_str.size.times do |ind|
+    end
     OK
   end
 end

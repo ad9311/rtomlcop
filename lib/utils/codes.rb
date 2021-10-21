@@ -10,4 +10,10 @@ module Codes
   module TypeOf
     STR = :str # Value of tye String
   end
+
+  module Offence
+    # String
+    # Basic String
+    INV_ESC_CHAR = :invescchar # Invalid escaped character
+  end
 end
