@@ -1,6 +1,7 @@
 require_relative '../../utils/codes'
 require_relative '../../utils/regexp'
 require_relative './basic_string/basic_string'
+require_relative './literal_string/literal_string'
 
 class StringType
   include Codes::Status
@@ -10,6 +11,7 @@ class StringType
     @last_code = OK
 
     @bs = BasicString.new
+    @ls = LiteralString.new
   end
 
   def insp_str(line)
@@ -25,7 +27,7 @@ class StringType
     when true
       @bs.insp_bs(line)
     else
-      'Literal String'
+      @ls.insp_ls(line)
     end
   end
 

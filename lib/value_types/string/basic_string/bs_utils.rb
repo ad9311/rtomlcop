@@ -1,7 +1,7 @@
 require_relative '../../../utils/regexp'
 require_relative '../../../utils/codes'
 
-module BsUtils
+module BSUtils
   include RegExp::StringValue
   include Codes::Status
   include Codes::Offence
@@ -14,8 +14,6 @@ module BsUtils
     srt = MLBSSRT.match?(str)
     enx = MLBSEND.match(str)
     return true if srt || enx
-
-    false
   end
 
   def empty_mlbs?(str)

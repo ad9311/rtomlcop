@@ -4,7 +4,7 @@ require_relative '../../../utils/offence'
 
 class BasicString
   include Codes::Status
-  include BsUtils
+  include BSUtils
 
   def initialize
     @str = nil
@@ -35,7 +35,7 @@ class BasicString
   def switch_mlbs(str)
     con = mlbs?(str)
     @last_code = MULTI_BS if con
-    case con || mlcode?
+    case con || mlbscode?
     when true
       mlbs(str)
     else
@@ -52,7 +52,7 @@ class BasicString
     resp
   end
 
-  def mlcode?
+  def mlbscode?
     MULTI.include?(@last_code)
   end
 
