@@ -7,6 +7,8 @@ module LSUtils
   include Codes::Offence
 
   SGQ = "'".freeze
+  EMMLLS = "''''''".freeze
+  EMSLLS = "''".freeze
 
   def mlls?(str)
     srt = MLLSSRT.match?(str)
@@ -15,11 +17,13 @@ module LSUtils
   end
 
   def empty_mlls?(str)
-    return true if CLMLLS.match?(str)
+    s_str = str.rstrip
+    return true if s_str == EMMLLS
   end
 
   def empty_slls?(str)
-    return true if CLSLLS.match?(str)
+    s_str = str.rstrip
+    return true if s_str == EMSLLS
   end
 
   def mlls_closed?(str)

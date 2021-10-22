@@ -24,16 +24,18 @@ module Codes
     # Major Offence: Unexpected Basic String
     UNX_BS_END = :unexpbs 
     
-    # Minor Offence Invalid escaped character sequence
+    # Minor Offence: Invalid escaped character sequence
     INV_ESC_SEQ = :invescseq
-    # Minor Offence Invalid unicode code format
+    # Minor Offence: Invalid unicode code format
     INV_UNI_FORMAT = :invunifrm
+    # Minor Offence: Expected new line after basic string
+    EXP_NL_BS = :expnlbs
 
     # Literal String
 
     # Major Offence: Unexpected Literal String
     UNX_LS_END = :unexpls
-    # Minor Offence Expected new line after literal string
+    # Minor Offence: Expected new line after literal string
     EXP_NL_LS = :expnlls
   end
 end

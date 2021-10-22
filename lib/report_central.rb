@@ -5,12 +5,12 @@ require_relative './utils/codes'
 class ReportCentral
   include Codes::Status
   include Segmemts
-  attr_reader :report, :last_code
+  attr_reader :report, :code_list
 
   def initialize(file)
     @file = file
     @report = []
-    @last_code = OK
+    @code_list = []
 
     @value_type = ValueType.new
   end
@@ -23,7 +23,8 @@ class ReportCentral
       lnum += 1
     end
   rescue MajorOffence => e
-    @report = [*report, [e]]
+    @code_list << e.offence.fetch(:code)
+    @report = [*report, e]
   end
 
   def call_insp(line)
@@ -40,12 +41,12 @@ class ReportCentral
   def collect_offences(resp)
     case resp.last
     when MinorOffence
-      @last_code = resp.last.offence.fetch(:code)
+      @code_list << resp.last.offence.fetch(:code)
       @report = [*@report, *resp]
     else
-      return @last_code = resp.last if MULTI.include?(resp.last)
+      return @code_list << resp.last if MULTI.include?(resp.last)
 
-      @last_code = resp.last
+      @code_list << resp.last
     end
   end
 end

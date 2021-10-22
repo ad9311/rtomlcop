@@ -82,7 +82,8 @@ class BasicString
   def slbs(str)
     return OK if empty_slbs?(str)
 
-    return @last_code = MULTI_BS unless slbs_closed?(str)
+    # return @last_code = MULTI_BS unless slbs_closed?(str)
+    return @last_code = bs_minor_offnc(EXP_NL_BS) unless slbs_closed?(str)
 
     insp_slbs(str)
   end

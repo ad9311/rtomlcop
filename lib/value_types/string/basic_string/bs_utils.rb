@@ -8,6 +8,8 @@ module BSUtils
 
   SLASH = '\\'.freeze
   DBQ = '"'.freeze
+  EMMLBS = '""""""'.freeze
+  EMSLBS = '""'.freeze
   ESC_CHARS = %w[b t n f r u U " \\].freeze
 
   def mlbs?(str)
@@ -17,11 +19,13 @@ module BSUtils
   end
 
   def empty_mlbs?(str)
-    return true if CLMLBS.match?(str)
+    s_str = str.rstrip
+    return true if s_str == EMMLBS
   end
 
   def empty_slbs?(str)
-    return true if CLSLBS.match?(str)
+    s_str = str.rstrip
+    return true if s_str == EMSLBS
   end
 
   def mlbs_closed?(str)

@@ -48,10 +48,6 @@ module RegExp
     MLBSEND = Regexp.new(/[^\\]"{3,}(\n?)$/).freeze
     # Start of Basic String Single-line mode
     SLBSEND = Regexp.new(/[^\\]"{1,}(\n?)$/).freeze
-    # Closed Multi-line Basic String
-    CLMLBS = Regexp.new(/^"{6}(\n?)$/).freeze
-    # Closed Single-line Basic String
-    CLSLBS = Regexp.new(/^"{2}(\n?)$/).freeze
 
     # Start of Literal String Multi-line mode
     MLLSSRT = Regexp.new(/^'{3,}/).freeze
@@ -59,10 +55,6 @@ module RegExp
     MLLSEND = Regexp.new(/[^']'{3,}(\n?)$/).freeze
     # End of Literal String Single-line mode
     SLLSEND = Regexp.new(/'\n$/).freeze
-    # Closed Multi-line Literal String
-    CLMLLS = Regexp.new(/^[^\n]'{6}(\n?)$/).freeze
-    # Closed Single-line Literal String
-    CLSLLS = Regexp.new(/^'{2}(\n?)$/).freeze
     # More than two adjacent single quotes
     MTWOASQ = Regexp.new(/'{3,}.*/).freeze
     # Unexpected Single Quote
