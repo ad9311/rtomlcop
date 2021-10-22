@@ -9,7 +9,6 @@ class BasicString
   def initialize
     @str = nil
     @lnum = 0
-    @last_lnum = 0
     @last_code = OK
   end
 
@@ -38,9 +37,9 @@ class BasicString
     @last_code = MULTI_BS if con
     case con || mlcode?
     when true
-      insp_mlbs(str)
+      mlbs(str)
     else
-      'Single Line'
+      slbs(str)
     end
   end
 
@@ -57,30 +56,69 @@ class BasicString
     MULTI.include?(@last_code)
   end
 
-  def insp_mlbs(str)
+  def lnum_bs_offset(str, ind)
+    @lnum += 1 if str[ind] == "\n"
+  end
+
+  def mlbs(str)
     return OK if empty_mlbs?(str)
 
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
+    insp_mlbs(str)
+  end
+
+  def slbs(str)
+    return OK if empty_slbs?(str)
+
+    return @last_code = MULTI_BS unless slbs_closed?(str)
+
+    insp_slbs(str)
+  end
+
+  def insp_mlbs(str)
     offences = []
     stack = []
-    s_str = chop_ends(str)
+    s_str = mlbs_chop_ends(str)
     s_str.size.times do |ind|
       lnum_bs_offset(s_str, ind)
-      chk = chk_esc_char(s_str, ind, stack.last)
-      stack << chk unless chk.nil? || chk.is_a?(Symbol)
-      offences << Offence.create(@lnum, chk) if chk.is_a?(Symbol)
-      uni = chk_uni_char(s_str, ind)
-      offences << Offence.create(@lnum, uni) if uni.is_a?(Symbol)
-      quote = chk_mlbs_quote(s_str, ind, stack.last)
-      offences << Offence.create(@lnum, quote) if quote.is_a?(Symbol)
+
+      chseq = mlbs_chseq(s_str, ind, stack.last)
+      stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
+      offences << Offence.create(@lnum, chseq)
+
+      unicode = uni_code_char(s_str, ind)
+      offences << Offence.create(@lnum, unicode)
+
+      quote = mlbs_quote(s_str, ind, stack.last)
+      offences << Offence.create(@lnum, quote)
+      break if quote.is_a?(Symbol)
     end
+    offences.compact!
     return offences unless offences.empty?
 
     OK
   end
 
-  def lnum_bs_offset(str, ind)
-    @lnum += 1 if str[ind] == "\n"
+  def insp_slbs(str)
+    offences = []
+    stack = []
+    s_str = slbs_chop_ends(str)
+    s_str.size.times do |ind|
+      chseq = slbs_chseq(s_str, ind, stack.last)
+      stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
+      offences << Offence.create(@lnum, chseq)
+
+      unicode = uni_code_char(s_str, ind)
+      offences << Offence.create(@lnum, unicode)
+
+      quote = slbs_quote(s_str, ind, stack.last)
+      offences << Offence.create(@lnum, quote)
+      break if quote.is_a?(Symbol)
+    end
+    offences.compact!
+    return offences unless offences.empty?
+
+    OK
   end
 end

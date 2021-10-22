@@ -38,10 +38,10 @@ class ReportCentral
       @last_code = resp.last
       return
     end
-    new_offence(resp)
+    collect_offences(resp)
   end
 
-  def new_offence(resp)
+  def collect_offences(resp)
     @last_code = resp.last.is_a?(Hash) ? resp.last.fetch(:code) : resp.last
     return if resp.last == OK
 

@@ -20,19 +20,29 @@ module BsUtils
 
   def empty_mlbs?(str)
     return true if CLMLBS.match?(str)
+  end
 
-    false
+  def empty_slbs?(str)
+    return true if CLSLBS.match?(str)
   end
 
   def mlbs_closed?(str)
     MLBSEND.match?(str)
   end
 
-  def chop_ends(str)
-    str.rstrip[3, str.size - 7]
+  def slbs_closed?(str)
+    SLBSEND.match?(str)
   end
 
-  def chk_esc_char(str, ind, id)
+  def mlbs_chop_ends(str)
+    str.rstrip[3, str.size - 6]
+  end
+
+  def slbs_chop_ends(str)
+    str.rstrip[1, str.size - 2]
+  end
+
+  def mlbs_chseq(str, ind, id)
     return if str[ind] != SLASH
 
     escaped = id == ind
@@ -45,7 +55,20 @@ module BsUtils
     (ind + 1)
   end
 
-  def chk_mlbs_quote(str, ind, id)
+  def slbs_chseq(str, ind, id)
+    return if str[ind] != SLASH
+
+    escaped = id == ind
+    return if escaped
+
+    nxt = str[ind + 1]
+    valid = ESC_CHARS.include?(nxt)
+    return INV_ESC_SEQ unless valid
+
+    (ind + 1)
+  end
+
+  def mlbs_quote(str, ind, id)
     return unless str[ind] == DBQ
 
     escaped = ind == id
@@ -55,10 +78,19 @@ module BsUtils
     return EXP_NL_MLBS if MLBSSRT.match?(bad_group)
   end
 
-  def chk_uni_char(str, ind)
-    return unless /[uU]/.match?(str[ind])
+  def slbs_quote(str, ind, id)
+    return unless str[ind] == DBQ
 
-    uni = str[ind] == 'u' ? str[ind, 4] : str[ind, 8]
+    escaped = ind == id
+    return if escaped
+
+    MULTI_BS
+  end
+
+  def uni_code_char(str, ind)
+    return unless /[uU]/.match?(str[ind]) && str[ind - 1] == '\\'
+
+    uni = str[ind] == 'u' ? str[ind, 5] : str[ind, 9]
     return INV_UNI_FORMAT unless UNICHARHEX.match?(uni)
   end
 end

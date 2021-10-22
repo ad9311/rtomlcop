@@ -39,6 +39,8 @@ module RegExp
     # Basic Strings multi line and single line
     MLBSSRT = Regexp.new(/^"{3,}/).freeze
     MLBSEND = Regexp.new(/[^\\]"{3,}(\n?)$/).freeze
+    SLBSSRT = Regexp.new(/^"{1,}/).freeze # Check later.
+    SLBSEND = Regexp.new(/[^\\]"{1,}(\n?)$/).freeze
     CLMLBS = Regexp.new(/^"{6}(\n?)$/).freeze
     CLSLBS = Regexp.new(/^"{2}(\n?)$/).freeze
 
@@ -47,6 +49,6 @@ module RegExp
     MLLSEND = Regexp.new(/'{3,}(\n?)$/).freeze
 
     # Unicode Characters Hex Codes
-    UNICHARHEX = Regexp.new(/^[uU][0-9a-fA-F]{1,8}$/).freeze
+    UNICHARHEX = Regexp.new(/^[uU][0-9a-fA-F]{4,8}$/).freeze
   end
 end
