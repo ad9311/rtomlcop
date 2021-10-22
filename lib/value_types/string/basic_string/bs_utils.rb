@@ -33,11 +33,13 @@ module BSUtils
   end
 
   def mlbs_chop_ends(str)
-    str.rstrip[3, str.size - 6]
+    s_str = str.rstrip
+    s_str[3, s_str.size - 6]
   end
 
   def slbs_chop_ends(str)
-    str.rstrip[1, str.size - 3]
+    s_str = str.rstrip
+    s_str[1, s_str.size - 2]
   end
 
   def mlbs_chseq(str, ind, id)

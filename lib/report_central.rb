@@ -9,6 +9,8 @@ class ReportCentral
 
   def initialize(file)
     @file = file
+    @report = []
+    @unhandled_offence = []
     @offences = []
     @last_code = OK
 
@@ -42,9 +44,9 @@ class ReportCentral
   end
 
   def collect_offences(resp)
-    @last_code = resp.last.is_a?(Hash) ? resp.last.fetch(:code) : resp.last
-    return if resp.last == OK
+    # @last_code = resp.last.is_a?(Hash) ? resp.last.fetch(:code) : resp.last
+    # return if resp.last == OK
 
-    @offences = [*@offences, *resp]
+    # @offences = [*@offences, *resp]
   end
 end

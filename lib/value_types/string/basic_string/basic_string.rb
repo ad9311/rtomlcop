@@ -9,6 +9,7 @@ class BasicString
   def initialize
     @str = nil
     @lnum = 0
+    @offences = []
     @last_code = OK
   end
 
@@ -20,12 +21,18 @@ class BasicString
 
   private
 
+  def clear_offences
+    return unless MULTI.include?(@last_code)
+
+    @offences.clear
+  end
+
   def incr_bs_lnum(line)
     @lnum = line.fetch(:lnum)
   end
 
   def concat_bs(line)
-    @str = line.fetch(:value) unless MULTI.include?(@last_code)
+    @str = line.fetch(:value) unless MULTI.include?(@last_code) # Fix this
     return unless MULTI.include?(@last_code)
 
     str = line.fetch(:self)
@@ -77,7 +84,6 @@ class BasicString
   end
 
   def insp_mlbs(str)
-    offences = []
     stack = []
     s_str = mlbs_chop_ends(str)
     s_str.size.times do |ind|
@@ -85,41 +91,41 @@ class BasicString
 
       chseq = mlbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      offences << Offence.create(@lnum, chseq)
+      no_bsnil(@lnum, chseq)
 
       unicode = uni_code_char(s_str, ind)
-      offences << Offence.create(@lnum, unicode)
+      no_bsnil(@lnum, unicode)
 
       quote = mlbs_quote(s_str, ind, stack.last)
-      offences << Offence.create(@lnum, quote)
+      no_bsnil(@lnum, quote)
       break if quote.is_a?(Symbol)
     end
-    offences.compact!
-    return offences unless offences.empty?
+    return @offences unless @offences.empty?
 
     OK
   end
 
   def insp_slbs(str)
-    offences = []
     stack = []
     s_str = slbs_chop_ends(str)
     s_str.size.times do |ind|
       chseq = slbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      offences << Offence.create(@lnum, chseq)
+      no_bsnil(@lnum, chseq)
 
       unicode = uni_code_char(s_str, ind)
-      offences << Offence.create(@lnum, unicode)
+      no_bsnil(@lnum, unicode)
 
       quote = slbs_quote(s_str, ind, stack.last)
-      offences << Offence.create(@lnum, quote)
+      no_bsnil(@lnum, quote)
       break if quote.is_a?(Symbol)
     end
-
-    offences.compact!
-    return offences unless offences.empty?
+    return @offences unless @offences.empty?
 
     OK
+  end
+
+  def no_bsnil(lnum, code)
+    @offences << Offence.new(lnum, code) if code.is_a?(Symbol)
   end
 end
