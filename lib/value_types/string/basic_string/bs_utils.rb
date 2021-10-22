@@ -39,7 +39,7 @@ module BsUtils
   end
 
   def slbs_chop_ends(str)
-    str.rstrip[1, str.size - 2]
+    str.rstrip[1, str.size - 3]
   end
 
   def mlbs_chseq(str, ind, id)

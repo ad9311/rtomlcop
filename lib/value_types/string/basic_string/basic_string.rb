@@ -116,6 +116,7 @@ class BasicString
       offences << Offence.create(@lnum, quote)
       break if quote.is_a?(Symbol)
     end
+
     offences.compact!
     return offences unless offences.empty?
 
