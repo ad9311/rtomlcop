@@ -1,6 +1,7 @@
 require_relative '../../../utils/codes'
 require_relative './bs_utils'
 require_relative '../../../utils/offence'
+require_relative '../../../utils/unhandled_offence'
 
 class BasicString
   include Codes::Status
@@ -10,6 +11,7 @@ class BasicString
     @str = nil
     @lnum = 0
     @offences = []
+    @unh_offence = nil
     @last_code = OK
   end
 
@@ -91,13 +93,13 @@ class BasicString
 
       chseq = mlbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      no_bsnil(@lnum, chseq)
+      bs_off(chseq)
 
       unicode = uni_code_char(s_str, ind)
-      no_bsnil(@lnum, unicode)
+      bs_off(unicode)
 
       quote = mlbs_quote(s_str, ind, stack.last)
-      no_bsnil(@lnum, quote)
+      bs_unh_off(quote)
       break if quote.is_a?(Symbol)
     end
     return @offences unless @offences.empty?
@@ -111,13 +113,13 @@ class BasicString
     s_str.size.times do |ind|
       chseq = slbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      no_bsnil(@lnum, chseq)
+      bs_off(chseq)
 
       unicode = uni_code_char(s_str, ind)
-      no_bsnil(@lnum, unicode)
+      bs_off(unicode)
 
       quote = slbs_quote(s_str, ind, stack.last)
-      no_bsnil(@lnum, quote)
+      bs_unh_off(quote)
       break if quote.is_a?(Symbol)
     end
     return @offences unless @offences.empty?
@@ -125,7 +127,11 @@ class BasicString
     OK
   end
 
-  def no_bsnil(lnum, code)
-    @offences << Offence.new(lnum, code) if code.is_a?(Symbol)
+  def bs_off(code)
+    @offences << Offence.new(@lnum, code) if code.is_a?(Symbol)
+  end
+
+  def bs_unh_off(code)
+    @unh_offence = UnhandledOffence.new(@lnum, code) if code.is_a?(Symbol)
   end
 end

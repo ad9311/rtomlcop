@@ -73,8 +73,13 @@ class LiteralString
     s_str.size.times do |ind|
       lnum_ls_offset(s_str, ind)
       quote = mlls_valid_quote(s_str, ind)
-      return UnhandledOffence.create(@lnum, quote) unless quote.nil?
+      ls_unh_off(quote)
+      break if quote.is_a?(Symbol)
     end
     OK
+  end
+
+  def ls_unh_off(code)
+    @unh_offence = UnhandledOffence.new(@lnum, code) if code.is_a?(Symbol)
   end
 end

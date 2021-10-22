@@ -32,6 +32,6 @@ module LSUtils
 
     bad_group = str[ind, ind.size - 1]
     quote = MTWOADQ.match?(bad_group)
-    return UNEXP_LS if quote
+    return UN_LS_END if quote
   end
 end

@@ -1,9 +1,15 @@
 class UnhandledOffence
-  class << self
-    def create(lnum, code)
-      return unless code.is_a?(Symbol)
+  attr_reader :unh_offence
 
-      { lnum: lnum, code: code }
-    end
+  def initialize(lnum, code)
+    @lnum = lnum
+    @code = code
+    @unh_offence = create
+  end
+
+  private
+
+  def create
+    @unh_offence = { lnum: @lnum, code: @code }
   end
 end

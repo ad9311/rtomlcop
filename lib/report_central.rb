@@ -10,7 +10,7 @@ class ReportCentral
   def initialize(file)
     @file = file
     @report = []
-    @unhandled_offence = []
+    @unh_offence = []
     @last_code = OK
 
     @value_type = ValueType.new

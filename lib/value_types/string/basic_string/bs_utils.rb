@@ -75,7 +75,7 @@ module BSUtils
     return if escaped
 
     bad_group = str[ind, str.size - 1]
-    return EXP_NL_MLBS if MLBSSRT.match?(bad_group)
+    return UN_BS_END if MLBSSRT.match?(bad_group)
   end
 
   def slbs_quote(str, ind, id)
@@ -84,7 +84,7 @@ module BSUtils
     escaped = ind == id
     return if escaped
 
-    MULTI_BS
+    UN_BS_END
   end
 
   def uni_code_char(str, ind)

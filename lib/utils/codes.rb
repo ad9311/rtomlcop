@@ -14,15 +14,13 @@ module Codes
   module Offence
     # Unhandled
     # Strings
+    # Basic String
+    UN_BS_END = :unexpbs # Unexpected Basic String
     # Literal String
-    UNEXP_LS = :unexpls # Unexpected Literal String
+    UN_LS_END = :unexpls # Unexpected Literal String
 
     # String
     # Basic String
-    # Major Offences
-    EXP_NL_MLBS = :expnlmlbs # Expecting new line after multi line basic string
-
-    # Minor Offences
     INV_ESC_SEQ = :invescseq # Invalid escaped character
     INV_UNI_FORMAT = :invunifrm # Invalid unicode format
   end
