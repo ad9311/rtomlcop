@@ -26,11 +26,6 @@ module RegExp
     end
   end
 
-  module NumericValue
-    HEX_4 = Regexp.new(/[0-9a-fA-F]{4}$/).freeze
-    HEX_8 = Regexp.new(/[0-9a-fA-F]{8}$/).freeze
-  end
-
   module StringValue
     # String Type
     # Basic String Recognition
@@ -50,5 +45,8 @@ module RegExp
     # Literal Strings multi line and single line
     MLLSSRT = Regexp.new(/^'{3,}/).freeze
     MLLSEND = Regexp.new(/'{3,}(\n?)$/).freeze
+
+    # Unicode Characters Hex Codes
+    UNICHARHEX = Regexp.new(/^[uU][0-9a-fA-F]{1,8}$/).freeze
   end
 end

@@ -70,6 +70,8 @@ class BasicString
       chk = chk_esc_char(s_str, ind, stack.last)
       stack << chk unless chk.nil? || chk.is_a?(Symbol)
       offences << Offence.create(@lnum, chk) if chk.is_a?(Symbol)
+      uni = chk_uni_char(s_str, ind)
+      offences << Offence.create(@lnum, uni) if uni.is_a?(Symbol)
       quote = chk_mlbs_quote(s_str, ind, stack.last)
       offences << Offence.create(@lnum, quote) if quote.is_a?(Symbol)
     end

@@ -15,10 +15,10 @@ module Codes
     # String
     # Basic String
     # Major Offences
-    EXP_NL_MLBS = :expnlmlbs # Expecting new line in multi line basic string
+    EXP_NL_MLBS = :expnlmlbs # Expecting new line after multi line basic string
 
     # Minor Offences
-    INV_ESC_CHAR = :invescchar # Invalid escaped character
-    INV_UNI_FORM = :invuniform # Invalid unicode format
+    INV_ESC_SEQ = :invescseq # Invalid escaped character
+    INV_UNI_FORMAT = :invunifrm # Invalid unicode format
   end
 end

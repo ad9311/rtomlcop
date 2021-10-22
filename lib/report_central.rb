@@ -42,7 +42,7 @@ class ReportCentral
   end
 
   def new_offence(resp)
-    @last_code = resp.last.fetch(:code)
+    @last_code = resp.last.is_a?(Hash) ? resp.last.fetch(:code) : resp.last
     return if resp.last == OK
 
     @offences = [*@offences, *resp]

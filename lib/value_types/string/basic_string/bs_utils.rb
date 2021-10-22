@@ -33,25 +33,32 @@ module BsUtils
   end
 
   def chk_esc_char(str, ind, id)
-    return nil if str[ind] != SLASH
+    return if str[ind] != SLASH
 
     escaped = id == ind
-    return nil if escaped
+    return if escaped
 
     nxt = str[ind + 1]
     valid = ESC_CHARS.include?(nxt)
-    return INV_ESC_CHAR unless valid || nxt == "\n"
+    return INV_ESC_SEQ unless valid || nxt == "\n"
 
     (ind + 1)
   end
 
   def chk_mlbs_quote(str, ind, id)
-    return nil unless str[ind] == DBQ
+    return unless str[ind] == DBQ
 
     escaped = ind == id
-    return nil if escaped
+    return if escaped
 
     bad_group = str[ind, str.size - 1]
     return EXP_NL_MLBS if MLBSSRT.match?(bad_group)
+  end
+
+  def chk_uni_char(str, ind)
+    return unless /[uU]/.match?(str[ind])
+
+    uni = str[ind] == 'u' ? str[ind, 4] : str[ind, 8]
+    return INV_UNI_FORMAT unless UNICHARHEX.match?(uni)
   end
 end
