@@ -46,7 +46,7 @@ class ReportCentral
     else
       return @last_code = resp.last if MULTI.include?(resp.last)
 
-      @last_code = OK
+      @last_code = resp.last
     end
   end
 end

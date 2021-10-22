@@ -23,12 +23,6 @@ class BasicString
 
   private
 
-  def clear_offences
-    return unless MULTI.include?(@last_code)
-
-    @offences.clear
-  end
-
   def incr_bs_lnum(line)
     @lnum = line.fetch(:lnum)
   end
@@ -53,12 +47,20 @@ class BasicString
   end
 
   def arr_bs_resp(resp)
-    unless resp.is_a?(Array)
+    return [@unh_offence] unless @unh_offence.nil?
+
+    case resp
+    when Array
+      @last_code = OK
+      offences = resp.clone
+      @offences.clear
+      offences
+    when Symbol
       @last_code = OK unless MULTI.include?(resp)
-      return [resp]
+      [resp]
+    else
+      @last_code = OK
     end
-    @last_code = OK
-    resp
   end
 
   def mlbscode?
@@ -99,12 +101,9 @@ class BasicString
       bs_off(unicode)
 
       quote = mlbs_quote(s_str, ind, stack.last)
-      bs_unh_off(quote)
-      break if quote.is_a?(Symbol)
+      break if bs_unh_off?(quote)
     end
-    return @offences unless @offences.empty?
-
-    OK
+    send_offence
   end
 
   def insp_slbs(str)
@@ -119,19 +118,25 @@ class BasicString
       bs_off(unicode)
 
       quote = slbs_quote(s_str, ind, stack.last)
-      bs_unh_off(quote)
-      break if quote.is_a?(Symbol)
+      break if bs_unh_off?(quote)
     end
-    return @offences unless @offences.empty?
-
-    OK
+    send_offence
   end
 
   def bs_off(code)
     @offences << Offence.new(@lnum, code) if code.is_a?(Symbol)
   end
 
-  def bs_unh_off(code)
-    @unh_offence = UnhandledOffence.new(@lnum, code) if code.is_a?(Symbol)
+  def bs_unh_off?(code)
+    return false unless code.is_a?(Symbol)
+
+    @unh_offence = UnhandledOffence.new(@lnum, code)
+    true
+  end
+
+  def send_offence
+    return @offences unless @offences.empty?
+
+    OK
   end
 end

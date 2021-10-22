@@ -76,6 +76,7 @@ module BSUtils
 
     bad_group = str[ind, str.size - 1]
     return UN_BS_END if MLBSSRT.match?(bad_group)
+    # raise 'MY ERROR' if MLBSSRT.match?(bad_group)
   end
 
   def slbs_quote(str, ind, id)
