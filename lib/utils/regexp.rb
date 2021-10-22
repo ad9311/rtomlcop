@@ -5,13 +5,18 @@ module RegExp
   include Codes::TypeOf
 
   module Slices
+    # Table
     TABLE = Regexp.new(/^\[.*\]/).freeze
+    # Key
     KEY = Regexp.new(/.*=(\w\W)*/).freeze
+    # Value
     VALUE = Regexp.new(/(?<==)[\w\W]*/).freeze
+    # Comment
     COMMENT = Regexp.new(/^#+.*\n$/).freeze
   end
 
   module ValueFormat
+    # String Type
     QUOTES = Regexp.new(/['"]/).freeze
 
     def of_type(value)
@@ -27,30 +32,40 @@ module RegExp
   end
 
   module StringValue
-    # String Type
-    # Basic String Recognition
+    # Start of Basic String
     BSSRT = Regexp.new(/^"{1,}/).freeze
+    # End of Basic String
     BSEND = Regexp.new(/"{1,}(\n?)$/).freeze
 
-    # Literal String Recognition
+    # Start of Literal String
     LSSRT = Regexp.new(/^'{1,}/).freeze
+    # End of Lietal String
     LSEND = Regexp.new(/'{1,}(\n?)$/).freeze
 
-    # Basic Strings multi line and single line
+    # Start of Basic String Multi-line mode
     MLBSSRT = Regexp.new(/^"{3,}/).freeze
+    # End of Basic String Multi-line mode
     MLBSEND = Regexp.new(/[^\\]"{3,}(\n?)$/).freeze
-    SLBSSRT = Regexp.new(/^"{1,}/).freeze # Check later.
+    # Start of Basic String Single-line mode
     SLBSEND = Regexp.new(/[^\\]"{1,}(\n?)$/).freeze
+    # Closed Multi-line Basic String
     CLMLBS = Regexp.new(/^"{6}(\n?)$/).freeze
+    # Closed Single-line Basic String
     CLSLBS = Regexp.new(/^"{2}(\n?)$/).freeze
 
-    # Literal Strings multi line and single line
+    # Start of Literal String Multi-line mode
     MLLSSRT = Regexp.new(/^'{3,}/).freeze
+    # End of Literal String Multi-line mode
     MLLSEND = Regexp.new(/[^']'{3,}(\n?)$/).freeze
+    # End of Literal String Single-line mode
     SLLSEND = Regexp.new(/'\n$/).freeze
+    # Closed Multi-line Literal String
     CLMLLS = Regexp.new(/^[^\n]'{6}(\n?)$/).freeze
+    # Closed Single-line Literal String
     CLSLLS = Regexp.new(/^'{2}(\n?)$/).freeze
+    # More than two adjacent single quotes
     MTWOASQ = Regexp.new(/'{3,}.*/).freeze
+    # Unexpected Single Quote
     UNXSQ = Regexp.new(/'{1,}.*/).freeze
 
     # Unicode Characters Hex Codes
