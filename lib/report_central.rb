@@ -10,7 +10,6 @@ class ReportCentral
   def initialize(file)
     @file = file
     @report = []
-    @unh_offence = []
     @last_code = OK
 
     @value_type = ValueType.new
@@ -23,6 +22,8 @@ class ReportCentral
       call_insp(line)
       lnum += 1
     end
+  rescue MajorOffence => e
+    @report = [*report, [e]]
   end
 
   def call_insp(line)
@@ -38,11 +39,9 @@ class ReportCentral
 
   def collect_offences(resp)
     case resp.last
-    when Offence
+    when MinorOffence
       @last_code = resp.last.offence.fetch(:code)
       @report = [*@report, *resp]
-    when UnhandledOffence
-      p 'Unhandled Offence'
     else
       return @last_code = resp.last if MULTI.include?(resp.last)
 

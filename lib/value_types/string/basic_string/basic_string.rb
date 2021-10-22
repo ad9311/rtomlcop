@@ -1,7 +1,7 @@
 require_relative '../../../utils/codes'
 require_relative './bs_utils'
-require_relative '../../../utils/offence'
-require_relative '../../../utils/unhandled_offence'
+require_relative '../../../offence/minor_offence'
+require_relative '../../../offence/major_offence'
 
 class BasicString
   include Codes::Status
@@ -95,13 +95,12 @@ class BasicString
 
       chseq = mlbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      bs_off(chseq)
+      bs_minor_offnc(chseq)
 
       unicode = uni_code_char(s_str, ind)
-      bs_off(unicode)
+      bs_minor_offnc(unicode)
 
-      quote = mlbs_quote(s_str, ind, stack.last)
-      break if bs_unh_off?(quote)
+      bs_major_offnc(mlbs_quote(s_str, ind, stack.last))
     end
     send_offence
   end
@@ -112,26 +111,24 @@ class BasicString
     s_str.size.times do |ind|
       chseq = slbs_chseq(s_str, ind, stack.last)
       stack << chseq unless chseq.nil? || chseq.is_a?(Symbol)
-      bs_off(chseq)
+      bs_minor_offnc(chseq)
 
       unicode = uni_code_char(s_str, ind)
-      bs_off(unicode)
+      bs_minor_offnc(unicode)
 
-      quote = slbs_quote(s_str, ind, stack.last)
-      break if bs_unh_off?(quote)
+      bs_major_offnc(slbs_quote(s_str, ind, stack.last))
     end
     send_offence
   end
 
-  def bs_off(code)
-    @offences << Offence.new(@lnum, code) if code.is_a?(Symbol)
+  def bs_minor_offnc(code)
+    @offences << MinorOffence.new(@lnum, code) if code.is_a?(Symbol)
   end
 
-  def bs_unh_off?(code)
-    return false unless code.is_a?(Symbol)
+  def bs_major_offnc(code)
+    return unless code.is_a?(Symbol)
 
-    @unh_offence = UnhandledOffence.new(@lnum, code)
-    true
+    raise(MajorOffence.new(@lnum, code))
   end
 
   def send_offence

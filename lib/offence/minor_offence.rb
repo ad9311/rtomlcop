@@ -1,4 +1,4 @@
-class Offence
+class MinorOffence
   attr_reader :offence
 
   def initialize(lnum, code)

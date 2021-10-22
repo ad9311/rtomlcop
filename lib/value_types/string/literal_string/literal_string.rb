@@ -1,6 +1,5 @@
 require_relative '../../../utils/codes'
 require_relative './ls_utils'
-require_relative '../../../utils/unhandled_offence'
 
 class LiteralString
   include Codes::Status
@@ -72,14 +71,14 @@ class LiteralString
     s_str = mlls_chop_ends(str)
     s_str.size.times do |ind|
       lnum_ls_offset(s_str, ind)
-      quote = mlls_valid_quote(s_str, ind)
-      ls_unh_off(quote)
-      break if quote.is_a?(Symbol)
+      ls_major_offnc(mlls_valid_quote(s_str, ind))
     end
     OK
   end
 
-  def ls_unh_off(code)
-    @unh_offence = UnhandledOffence.new(@lnum, code) if code.is_a?(Symbol)
+  def ls_major_offnc(code)
+    return unless code.is_a?(Symbol)
+
+    raise(MajorOffence.new(@lnum, code))
   end
 end
