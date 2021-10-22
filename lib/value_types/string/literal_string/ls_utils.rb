@@ -18,8 +18,16 @@ module LSUtils
     return true if CLMLLS.match?(str)
   end
 
+  def empty_slls?(str)
+    return true if CLSLLS.match?(str)
+  end
+
   def mlls_closed?(str)
     MLLSEND.match?(str)
+  end
+
+  def slls_closed?(str)
+    SLLSEND.match?(str)
   end
 
   def mlls_chop_ends(str)
@@ -27,11 +35,22 @@ module LSUtils
     s_str[3, s_str.size - 6]
   end
 
+  def slls_chop_ends(str)
+    s_str = str.rstrip
+    s_str[1, s_str.size - 2]
+  end
+
   def mlls_valid_quote(str, ind)
     return if str[ind] != SGQ
 
     bad_group = str[ind, ind.size - 1]
-    quote = MTWOADQ.match?(bad_group)
-    return UN_LS_END if quote
+    quote = MTWOASQ.match?(bad_group)
+    return UNX_LS_END if quote
+  end
+
+  def slls_unx_quote(str, ind)
+    return if str[ind] != SGQ
+
+    return UNX_LS_END if UNXSQ.match(str)
   end
 end

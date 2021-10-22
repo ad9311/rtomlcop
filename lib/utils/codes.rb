@@ -15,13 +15,16 @@ module Codes
     # Unhandled
     # Strings
     # Basic String
-    UN_BS_END = :unexpbs # Unexpected Basic String
+    UNX_BS_END = :unexpbs # Unexpected Basic String
     # Literal String
-    UN_LS_END = :unexpls # Unexpected Literal String
+    UNX_LS_END = :unexpls # Unexpected Literal String
 
     # String
     # Basic String
     INV_ESC_SEQ = :invescseq # Invalid escaped character
     INV_UNI_FORMAT = :invunifrm # Invalid unicode format
+
+    # Literal String
+    EXP_NL_LS = :expnlls # Expected new line after literal string
   end
 end

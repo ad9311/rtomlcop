@@ -47,9 +47,11 @@ module RegExp
     # Literal Strings multi line and single line
     MLLSSRT = Regexp.new(/^'{3,}/).freeze
     MLLSEND = Regexp.new(/[^']'{3,}(\n?)$/).freeze
+    SLLSEND = Regexp.new(/'\n$/).freeze
     CLMLLS = Regexp.new(/^[^\n]'{6}(\n?)$/).freeze
     CLSLLS = Regexp.new(/^'{2}(\n?)$/).freeze
-    MTWOADQ = Regexp.new(/'{3,}.*/).freeze
+    MTWOASQ = Regexp.new(/'{3,}.*/).freeze
+    UNXSQ = Regexp.new(/'{1,}.*/).freeze
 
     # Unicode Characters Hex Codes
     UNICHARHEX = Regexp.new(/^[uU][0-9a-fA-F]{4,8}$/).freeze

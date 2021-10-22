@@ -38,7 +38,7 @@ class LiteralString
     when true
       mlls(str)
     else
-      :SLLS
+      slls(str)
     end
   end
 
@@ -67,6 +67,14 @@ class LiteralString
     insp_mlls(str)
   end
 
+  def slls(str)
+    return OK if empty_slls?(str)
+
+    return @last_code = ls_minor_offnc(EXP_NL_LS) unless slls_closed?(str)
+
+    insp_slls(str)
+  end
+
   def insp_mlls(str)
     s_str = mlls_chop_ends(str)
     s_str.size.times do |ind|
@@ -74,6 +82,18 @@ class LiteralString
       ls_major_offnc(mlls_valid_quote(s_str, ind))
     end
     OK
+  end
+
+  def insp_slls(str)
+    s_str = slls_chop_ends(str)
+    s_str.size.times do |ind|
+      ls_major_offnc(slls_unx_quote(s_str, ind))
+    end
+    OK
+  end
+
+  def ls_minor_offnc(code)
+    MinorOffence.new(@lnum, code) if code.is_a?(Symbol)
   end
 
   def ls_major_offnc(code)
