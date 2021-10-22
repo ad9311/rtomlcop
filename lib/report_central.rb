@@ -11,7 +11,6 @@ class ReportCentral
     @file = file
     @report = []
     @unhandled_offence = []
-    @offences = []
     @last_code = OK
 
     @value_type = ValueType.new
@@ -24,7 +23,6 @@ class ReportCentral
       call_insp(line)
       lnum += 1
     end
-    @report = @offences
   end
 
   def call_insp(line)
@@ -35,18 +33,20 @@ class ReportCentral
 
   def for_value(line)
     resp = @value_type.insp_value(line)
-    on_multi = MULTI.include?(resp.last)
-    if on_multi
-      @last_code = resp.last
-      return
-    end
     collect_offences(resp)
   end
 
   def collect_offences(resp)
-    # @last_code = resp.last.is_a?(Hash) ? resp.last.fetch(:code) : resp.last
-    # return if resp.last == OK
+    case resp.last
+    when Offence
+      @last_code = resp.last.offence.fetch(:code)
+      @report = [*@report, *resp]
+    when UnhandledOffence
+      p 'Unhandled Offence'
+    else
+      return @last_code = resp.last if MULTI.include?(resp.last)
 
-    # @offences = [*@offences, *resp]
+      @last_code = OK
+    end
   end
 end
