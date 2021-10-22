@@ -12,6 +12,11 @@ module Codes
   end
 
   module Offence
+    # Unhandled
+    # Strings
+    # Literal String
+    UNEXP_LS = :unexpls # Unexpected Literal String
+
     # String
     # Basic String
     # Major Offences

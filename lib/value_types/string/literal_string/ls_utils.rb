@@ -23,11 +23,15 @@ module LSUtils
   end
 
   def mlls_chop_ends(str)
-    str.rstrip[3, str.size - 6]
+    s_str = str.rstrip
+    s_str[3, s_str.size - 6]
   end
 
-  def mlls_valid_quote(str)
-    quote = MTWOADQ.match?(str)
-    return MULTI_LS if quote
+  def mlls_valid_quote(str, ind)
+    return if str[ind] != SGQ
+
+    bad_group = str[ind, ind.size - 1]
+    quote = MTWOADQ.match?(bad_group)
+    return UNEXP_LS if quote
   end
 end
