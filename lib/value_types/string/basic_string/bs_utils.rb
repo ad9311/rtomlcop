@@ -44,4 +44,14 @@ module BsUtils
 
     (ind + 1)
   end
+
+  def chk_mlbs_quote(str, ind, id)
+    return nil unless str[ind] == DBQ
+
+    escaped = ind == id
+    return nil if escaped
+
+    bad_group = str[ind, str.size - 1]
+    return EXP_NL_MLBS if MLBSSRT.match?(bad_group)
+  end
 end

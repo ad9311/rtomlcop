@@ -1,6 +1,6 @@
 class Offence
   class << self
-    def gen(lnum, code)
+    def create(lnum, code)
       { lnum: lnum, code: code }
     end
   end

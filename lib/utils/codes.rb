@@ -13,8 +13,11 @@ module Codes
 
   module Offence
     # String
-    # Minor Offences
     # Basic String
+    # Major Offences
+    EXP_NL_MLBS = :expnlmlbs # Expecting new line in multi line basic string
+
+    # Minor Offences
     INV_ESC_CHAR = :invescchar # Invalid escaped character
     INV_UNI_FORM = :invuniform # Invalid unicode format
   end

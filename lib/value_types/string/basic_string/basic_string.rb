@@ -62,14 +62,19 @@ class BasicString
 
     return @last_code = MULTI_BS unless mlbs_closed?(str)
 
+    offences = []
     stack = []
     s_str = chop_ends(str)
     s_str.size.times do |ind|
       lnum_bs_offset(s_str, ind)
       chk = chk_esc_char(s_str, ind, stack.last)
-      stack << { ind: @lnum, code: chk } if chk.is_a?(Symbol)
+      stack << chk unless chk.nil? || chk.is_a?(Symbol)
+      offences << Offence.create(@lnum, chk) if chk.is_a?(Symbol)
+      quote = chk_mlbs_quote(s_str, ind, stack.last)
+      offences << Offence.create(@lnum, quote) if quote.is_a?(Symbol)
     end
-    p stack
+    return offences unless offences.empty?
+
     OK
   end
 
