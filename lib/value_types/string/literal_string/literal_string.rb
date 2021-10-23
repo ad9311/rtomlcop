@@ -12,6 +12,7 @@ class LiteralString
   end
 
   def insp_ls(line)
+    @last_code = OK
     incr_ls_lnum(line) if @last_code == OK
     concat_ls(line)
     arr_ls_resp(switch_mlls(@str))
@@ -43,12 +44,14 @@ class LiteralString
   end
 
   def arr_ls_resp(resp)
-    unless resp.is_a?(Array)
+    case resp
+    when Array
+      @last_code = OK
+      resp
+    else
       @last_code = OK unless MULTI.include?(resp)
-      return [resp]
+      [resp]
     end
-    @last_code = OK
-    resp
   end
 
   def mllscode?

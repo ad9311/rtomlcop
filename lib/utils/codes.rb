@@ -43,11 +43,18 @@ module Codes
     # Numeric
     # Float
 
-    # Missing leading number before float
+    # Minor Offence: Missing leading number before float
     MSS_LEAD_NUM = :mssleadnum
-    # Extra zeros at the begining of a float
+    # Minor Offence: Extra zeros at the begining of a float
     EXT_ZEROS = :extzeros
-    # Invalid format for float
+    # Minor Offence: Invalid format for float
     INV_FLT_FRMT = :invfltfrmt
+
+    # Integers
+
+    # Minor Offence: Leading Zero for non HEX, OCT and BIN integer numbers
+    LEADZERO = :leadzero
+    # Minor Offence: Invalid format for integer
+    INV_INT_FRMT = :invintfrmt
   end
 end

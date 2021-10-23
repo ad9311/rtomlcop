@@ -19,16 +19,24 @@ module RegExp
     # String Type
     QUOTES = Regexp.new(/['"]/).freeze
     # Numeric Type
-    NUMBER = Regexp.new(/^[\-+.0-9]+/).freeze
+    NUMBER = Regexp.new(/[\-+.0-9]+/).freeze # Check Later
     # Especial Float values
-    ESPFLT = %w[inf +inf -inf nan +nan -nan e E].freeze
+    ESPFLT = %w[inf +inf -inf nan +nan -nan].freeze
+    # Integer Prefixes
+    INTPREFIX = Regexp.new(/[xXoObB]/).freeze
 
     def of_type(value)
       return RegExp::STR if QUOTES.match?(value)
 
-      return RegExp::NUM if NUMBER.match?(value) || ESPFLT.include?(value)
+      return RegExp::NUM if NUMBER.match?(value) || esp_num_char(value)
 
       RegExp::UNDEF
+    end
+
+    def esp_num_char(value)
+      esp_char = ESPFLT.include?(value)
+      prefix = INTPREFIX.match?(value)
+      esp_char || prefix
     end
   end
 
@@ -55,7 +63,7 @@ module RegExp
     # End of Literal String Multi-line mode
     MLLSEND = Regexp.new(/[^']'{3,}(\n?)$/).freeze
     # End of Literal String Single-line mode
-    SLLSEND = Regexp.new(/'\n$/).freeze
+    SLLSEND = Regexp.new(/'(\n?)$/).freeze
     # More than two adjacent single quotes
     MTWOASQ = Regexp.new(/'{3,}.*/).freeze
     # Unexpected Single Quote
@@ -69,6 +77,6 @@ module RegExp
     # More than one zero at the beging of a number
     ZEROS = Regexp.new(/^0{2,}/).freeze
     # Exponent Float
-    EXPFLT = Regexp.new(/\d+[eE]/).freeze
+    EXPFLT = Regexp.new(/(\d?)[eE]/).freeze
   end
 end

@@ -1,5 +1,6 @@
-require_relative './float/float_type'
 require_relative '../../utils/regexp'
+require_relative './float/float_type'
+require_relative './integer/integer_type'
 
 class NumericType
   include RegExp::ValueFormat
@@ -7,6 +8,7 @@ class NumericType
 
   def initialize
     @flt = FloatType.new
+    @int = IntegerType.new
   end
 
   def insp_num(line)
@@ -20,7 +22,7 @@ class NumericType
     when true
       @flt.insp_float(line)
     else
-      [:integer]
+      @int.insp_int(line)
     end
   end
 

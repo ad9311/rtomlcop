@@ -15,6 +15,7 @@ class BasicString
   end
 
   def insp_bs(line)
+    @offences = [] unless MULTI.include?(@last_code)
     incr_bs_lnum(line) if @last_code == OK
     concat_bs(line)
     arr_bs_resp(switch_mlbs(@str))
@@ -50,14 +51,10 @@ class BasicString
     case resp
     when Array
       @last_code = OK
-      offences = resp.clone
-      @offences.clear
-      offences
-    when Symbol
+      resp
+    else
       @last_code = OK unless MULTI.include?(resp)
       [resp]
-    else
-      @last_code = OK
     end
   end
 

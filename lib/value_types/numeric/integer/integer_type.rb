@@ -2,7 +2,7 @@ require_relative '../../../utils/codes'
 require_relative '../../../utils/regexp'
 require_relative '../../../offence/minor_offence'
 
-class FloatType
+class IntegerType
   include Codes::Status
   include Codes::Offence
   include RegExp::NumericValue
@@ -14,20 +14,20 @@ class FloatType
     @offences = []
   end
 
-  def insp_float(line)
+  def insp_int(line)
     @offences = []
-    flt_set(line)
-    arr_flt_resp(parse_flt)
+    int_set(line)
+    arr_int_resp(parse_int)
   end
 
   private
 
-  def flt_set(line)
+  def int_set(line)
     @lnum = line.fetch(:lnum)
     @num = line.fetch(:value)
   end
 
-  def arr_flt_resp(resp)
+  def arr_int_resp(resp)
     case resp
     when Array
       resp
@@ -36,24 +36,27 @@ class FloatType
     end
   end
 
-  def parse_flt
-    return OK if ESPFLT.include?(@num)
-
-    lead_num = NUMBER.match?(@num[0])
-    @offences << MinorOffence.new(@lnum, MSS_LEAD_NUM) unless lead_num
-    zeros = ZEROS.match?(@num)
-    @offences << MinorOffence.new(@lnum, EXT_ZEROS) if zeros
-    valid_flt
-    send_flt_offnc
+  def parse_int
+    @offences << MinorOffence.new(@lnum, LEADZERO) if lead_zero?
+    valid_int
+    send_int_offnc
   end
 
-  def valid_flt
-    Float(@num)
+  def lead_zero?
+    return false if @num == '0'
+
+    return unless NUMBER.match?(@num[1])
+
+    @num[0] == '0' && !INTPREFIX.match?(@num[1])
+  end
+
+  def valid_int
+    Integer(@num)
   rescue ArgumentError
-    @offences << MinorOffence.new(@lnum, INV_FLT_FRMT)
+    @offences << MinorOffence.new(@lnum, INV_INT_FRMT)
   end
 
-  def send_flt_offnc
+  def send_int_offnc
     return @offences unless @offences.empty?
 
     OK
