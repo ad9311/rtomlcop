@@ -15,6 +15,8 @@ module Codes
   module TypeOf
     # Value of type String
     STR = :str
+    # Value of type Numeric
+    NUM = :num
   end
 
   module Offence
@@ -22,8 +24,8 @@ module Codes
     # Basic String
 
     # Major Offence: Unexpected Basic String
-    UNX_BS_END = :unexpbs 
-    
+    UNX_BS_END = :unexpbs
+
     # Minor Offence: Invalid escaped character sequence
     INV_ESC_SEQ = :invescseq
     # Minor Offence: Invalid unicode code format
@@ -37,5 +39,15 @@ module Codes
     UNX_LS_END = :unexpls
     # Minor Offence: Expected new line after literal string
     EXP_NL_LS = :expnlls
+
+    # Numeric
+    # Float
+
+    # Missing leading number before float
+    MSS_LEAD_NUM = :mssleadnum
+    # Extra zeros at the begining of a float
+    EXT_ZEROS = :extzeros
+    # Invalid format for float
+    INV_FLT_FRMT = :invfltfrmt
   end
 end

@@ -1,6 +1,7 @@
 require_relative '../utils/regexp'
 require_relative '../utils/codes'
 require_relative './string/string_type'
+require_relative './numeric/numeric_type'
 
 class ValueType
   include RegExp::ValueFormat
@@ -12,6 +13,7 @@ class ValueType
     @last_code = OK
 
     @str = StringType.new
+    @num = NumericType.new
   end
 
   def insp_value(line)
@@ -27,6 +29,8 @@ class ValueType
     case type
     when STR
       @str.insp_str(line)
+    when NUM
+      @num.insp_num(line)
     else
       [OK]
     end

@@ -14,6 +14,6 @@ central.report.each do |o|
   puts "#{o.offence} - #{o.class}"
 end
 puts '-------------'
-puts "Code List:"
+puts 'Code List:'
 puts central.code_list
 puts '-------------'

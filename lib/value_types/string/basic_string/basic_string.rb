@@ -11,7 +11,6 @@ class BasicString
     @str = nil
     @lnum = 0
     @offences = []
-    @unh_offence = nil
     @last_code = OK
   end
 
@@ -47,8 +46,6 @@ class BasicString
   end
 
   def arr_bs_resp(resp)
-    return [@unh_offence] unless @unh_offence.nil?
-
     case resp
     when Array
       @last_code = OK
@@ -82,7 +79,6 @@ class BasicString
   def slbs(str)
     return OK if empty_slbs?(str)
 
-    # return @last_code = MULTI_BS unless slbs_closed?(str)
     return @last_code = bs_minor_offnc(EXP_NL_BS) unless slbs_closed?(str)
 
     insp_slbs(str)
@@ -103,7 +99,7 @@ class BasicString
 
       bs_major_offnc(mlbs_quote(s_str, ind, stack.last))
     end
-    send_offence
+    send_bs_offnc
   end
 
   def insp_slbs(str)
@@ -119,7 +115,7 @@ class BasicString
 
       bs_major_offnc(slbs_quote(s_str, ind, stack.last))
     end
-    send_offence
+    send_bs_offnc
   end
 
   def bs_minor_offnc(code)
@@ -132,7 +128,7 @@ class BasicString
     raise(MajorOffence.new(@lnum, code))
   end
 
-  def send_offence
+  def send_bs_offnc
     return @offences unless @offences.empty?
 
     OK

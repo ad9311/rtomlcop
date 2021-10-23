@@ -18,16 +18,17 @@ module RegExp
   module ValueFormat
     # String Type
     QUOTES = Regexp.new(/['"]/).freeze
+    # Numeric Type
+    NUMBER = Regexp.new(/^[\-+.0-9]+/).freeze
+    # Especial Float values
+    ESPFLT = %w[inf +inf -inf nan +nan -nan].freeze
 
     def of_type(value)
-      type = RegExp::UNDEF
-      type_str = string_type(value)
-      type = type_str unless type_str.nil?
-      type
-    end
-
-    def string_type(value)
       return RegExp::STR if QUOTES.match?(value)
+
+      return RegExp::NUM if NUMBER.match?(value) || ESPFLT.include?(value)
+
+      RegExp::UNDEF
     end
   end
 
@@ -62,5 +63,10 @@ module RegExp
 
     # Unicode Characters Hex Codes
     UNICHARHEX = Regexp.new(/^[uU][0-9a-fA-F]{4,8}$/).freeze
+  end
+
+  module NumericValue
+    # More than one zero at the beging of a number
+    ZEROS = Regexp.new(/^0{2,}/).freeze
   end
 end
