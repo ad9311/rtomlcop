@@ -4,6 +4,8 @@ module Codes
     OK = :ok
     # Undefine Value code
     UNDEF = :undef
+    # Tests
+    TEST = :test
     # Multi-line Basic String code
     MULTI_BS = :multi_bs
     # Multi-line Literal String code

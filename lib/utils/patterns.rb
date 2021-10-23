@@ -11,6 +11,12 @@ module Patterns
     KEY = Regexp.new(/.*=(\w\W)*/).freeze
     # Value
     VALUE = Regexp.new(/(?<==)[\w\W]*/).freeze
+    # Comment
+    COMMENT = Regexp.new(/\s*?#.*/).freeze
+    # Pair closing characters string
+    CLOSING_CHARS_STR = "\"'{}[]".freeze
+    # Pair closing characters array
+    CLOSING_CHARS = ['"', "'", '{', '}', '[', ']'].freeze
   end
 
   module ValueFormat
@@ -72,7 +78,7 @@ module Patterns
   end
 
   module NumericValue
-    # More than one zero at the beging of a number
+    # One of more leading zeros
     ZEROS = Regexp.new(/^0{2,}/).freeze
   end
 end

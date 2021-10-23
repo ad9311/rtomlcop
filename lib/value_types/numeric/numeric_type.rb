@@ -30,6 +30,6 @@ class NumericType
     num = line.fetch(:value)
     return true if num.count('.').positive?
 
-    return !INTPREFIX.match?(num) && /[eE]/.match?(num)
+    !INTPREFIX.match?(num) && /[eE]/.match?(num)
   end
 end

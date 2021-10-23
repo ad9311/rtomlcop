@@ -1,9 +1,11 @@
+require_relative '../utils/segments'
 require_relative '../utils/patterns'
 require_relative '../utils/codes'
 require_relative './string/string_type'
 require_relative './numeric/numeric_type'
 
 class ValueType
+  include Segmemts
   include Patterns::ValueFormat
   include Codes::Status
   include Codes::TypeOf
