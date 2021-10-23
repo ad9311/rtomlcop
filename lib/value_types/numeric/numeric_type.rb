@@ -1,10 +1,10 @@
-require_relative '../../utils/regexp'
+require_relative '../../utils/patterns'
 require_relative './float/float_type'
 require_relative './integer/integer_type'
 
 class NumericType
-  include RegExp::ValueFormat
-  include RegExp::NumericValue
+  include Patterns::ValueFormat
+  include Patterns::NumericValue
 
   def initialize
     @flt = FloatType.new

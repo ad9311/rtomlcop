@@ -1,11 +1,11 @@
 require_relative '../../utils/codes'
-require_relative '../../utils/regexp'
+require_relative '../../utils/patterns'
 require_relative './basic_string/basic_string'
 require_relative './literal_string/literal_string'
 
 class StringType
   include Codes::Status
-  include RegExp::StringValue
+  include Patterns::StringValue
 
   def initialize
     @last_code = OK

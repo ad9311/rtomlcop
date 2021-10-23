@@ -1,8 +1,8 @@
-require_relative '../../../utils/regexp'
+require_relative '../../../utils/patterns'
 require_relative '../../../utils/codes'
 
 module BSUtils
-  include RegExp::StringValue
+  include Patterns::StringValue
   include Codes::Status
   include Codes::Offence
 

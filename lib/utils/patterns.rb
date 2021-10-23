@@ -1,18 +1,16 @@
 require_relative '../utils/codes'
 
-module RegExp
+module Patterns
   include Codes::Status
   include Codes::TypeOf
 
   module Slices
     # Table
-    TABLE = Regexp.new(/^\[.*\]/).freeze
+    TABLE = Regexp.new(/^\s*\[.*\]/).freeze
     # Key
     KEY = Regexp.new(/.*=(\w\W)*/).freeze
     # Value
     VALUE = Regexp.new(/(?<==)[\w\W]*/).freeze
-    # Comment
-    COMMENT = Regexp.new(/^#+.*\n$/).freeze
   end
 
   module ValueFormat
@@ -26,11 +24,11 @@ module RegExp
     INTPREFIX = Regexp.new(/[xXoObB]/).freeze
 
     def of_type(value)
-      return RegExp::STR if QUOTES.match?(value)
+      return Patterns::STR if QUOTES.match?(value)
 
-      return RegExp::NUM if NUMBER.match?(value) || esp_num_char(value)
+      return Patterns::NUM if NUMBER.match?(value) || esp_num_char(value)
 
-      RegExp::UNDEF
+      Patterns::UNDEF
     end
 
     def esp_num_char(value)

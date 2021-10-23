@@ -1,12 +1,12 @@
 require_relative '../../../utils/codes'
-require_relative '../../../utils/regexp'
+require_relative '../../../utils/patterns'
 require_relative '../../../offence/minor_offence'
 
 class IntegerType
   include Codes::Status
   include Codes::Offence
-  include RegExp::NumericValue
-  include RegExp::ValueFormat
+  include Patterns::NumericValue
+  include Patterns::ValueFormat
 
   def initialize
     @num = nil
