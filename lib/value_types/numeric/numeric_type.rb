@@ -28,8 +28,8 @@ class NumericType
 
   def float?(line)
     num = line.fetch(:value)
-    point = num.count('.').positive?
-    esp_char = ESPFLT.include?(num)
-    (point && !INTPREFIX.match(num)) || esp_char
+    return true if num.count('.').positive?
+
+    return !INTPREFIX.match?(num) && /[eE]/.match?(num)
   end
 end
