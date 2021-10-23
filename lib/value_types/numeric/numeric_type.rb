@@ -30,7 +30,6 @@ class NumericType
     num = line.fetch(:value)
     point = num.count('.').positive?
     esp_char = ESPFLT.include?(num)
-    exp_flt = EXPFLT.match?(num)
-    point || esp_char || exp_flt
+    (point && !INTPREFIX.match(num)) || esp_char
   end
 end

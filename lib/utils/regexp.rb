@@ -76,7 +76,5 @@ module RegExp
   module NumericValue
     # More than one zero at the beging of a number
     ZEROS = Regexp.new(/^0{2,}/).freeze
-    # Exponent Float
-    EXPFLT = Regexp.new(/(\d?)[eE]/).freeze
   end
 end
