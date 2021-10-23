@@ -21,7 +21,7 @@ module RegExp
     # Numeric Type
     NUMBER = Regexp.new(/^[\-+.0-9]+/).freeze
     # Especial Float values
-    ESPFLT = %w[inf +inf -inf nan +nan -nan].freeze
+    ESPFLT = %w[inf +inf -inf nan +nan -nan e E].freeze
 
     def of_type(value)
       return RegExp::STR if QUOTES.match?(value)
@@ -68,5 +68,7 @@ module RegExp
   module NumericValue
     # More than one zero at the beging of a number
     ZEROS = Regexp.new(/^0{2,}/).freeze
+    # Exponent Float
+    EXPFLT = Regexp.new(/\d+[eE]/).freeze
   end
 end

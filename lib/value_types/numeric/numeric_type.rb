@@ -3,6 +3,7 @@ require_relative '../../utils/regexp'
 
 class NumericType
   include RegExp::ValueFormat
+  include RegExp::NumericValue
 
   def initialize
     @flt = FloatType.new
@@ -25,6 +26,9 @@ class NumericType
 
   def float?(line)
     num = line.fetch(:value)
-    num.count('.').positive? || ESPFLT.include?(num)
+    point = num.count('.').positive?
+    esp_char = ESPFLT.include?(num)
+    exp_flt = EXPFLT.match?(num)
+    point || esp_char || exp_flt
   end
 end

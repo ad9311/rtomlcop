@@ -27,9 +27,10 @@ class BasicString
   end
 
   def concat_bs(line)
-    @str = line.fetch(:value) unless MULTI.include?(@last_code) # Fix this
-    return unless MULTI.include?(@last_code)
-
+    unless MULTI.include?(@last_code)
+      @str = line.fetch(:value)
+      return unless MULTI.include?(@last_code)
+    end
     str = line.fetch(:self)
     @str.concat(str)
   end

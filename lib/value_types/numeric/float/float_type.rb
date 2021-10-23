@@ -15,6 +15,7 @@ class FloatType
   end
 
   def insp_float(line)
+    @offences = []
     flt_set(line)
     arr_flt_resp(parse_flt)
   end
@@ -36,7 +37,6 @@ class FloatType
   end\
 
   def parse_flt
-    puts 'Float'
     return OK if ESPFLT.include?(@num)
 
     lead_num = NUMBER.match?(@num[0])
