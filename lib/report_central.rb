@@ -18,7 +18,8 @@ class ReportCentral
   def scan
     lnum = 1
     File.foreach(@file) do |rl|
-      line = segment_line([lnum, rl])
+      line = segment_line([lnum, rl], not_multi?)
+      p line
       call_insp(line)
       lnum += 1
     end
@@ -32,6 +33,10 @@ class ReportCentral
   end
 
   private
+
+  def not_multi?
+    !MULTI.include?(@code_list.last)
+  end
 
   def for_value(line)
     resp = @value_type.insp_value(line)
