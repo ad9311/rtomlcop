@@ -19,7 +19,6 @@ class ReportCentral
     lnum = 1
     File.foreach(@file) do |rl|
       line = segment_line([lnum, rl], not_multi?)
-      p line
       call_insp(line)
       lnum += 1
     end

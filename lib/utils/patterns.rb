@@ -28,19 +28,32 @@ module Patterns
     ESPFLT = %w[inf +inf -inf nan +nan -nan].freeze
     # Integer Prefixes
     INTPREFIX = Regexp.new(/[xXoObB]/).freeze
+    # Date Time
+    DATETIME = Regexp.new(/^[\d\-:TZ]+\n*$/).freeze
 
     def of_type(value)
       return Patterns::STR if QUOTES.match?(value)
 
-      return Patterns::NUM if NUMBER.match?(value) || esp_num_char(value)
+      return Patterns::NUM if numeric?(value)
+
+      return Patterns::DTT if date_time?(value)
 
       Patterns::UNDEF
     end
 
-    def esp_num_char(value)
+    def numeric?(value)
+      return false if value.include?(':') || value.count('-') > 1
+
+      numeric = NUMBER.match?(value)
       esp_char = ESPFLT.include?(value)
       prefix = INTPREFIX.match?(value)
-      esp_char || prefix
+      numeric || esp_char || prefix
+    end
+
+    def date_time?(value)
+      return true if value.include?(':') || value.count('-') > 1
+
+      return true if DATETIME.match?(value)
     end
   end
 

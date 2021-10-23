@@ -19,6 +19,8 @@ module Codes
     STR = :str
     # Value of type Numeric
     NUM = :num
+    # Value of type DateTime
+    DTT = :dtt
   end
 
   module Offence
@@ -58,5 +60,10 @@ module Codes
     LEADZERO = :leadzero
     # Minor Offence: Invalid format for integer
     INV_INT_FRMT = :invintfrmt
+
+    # Date Time
+
+    # Minor Offence: Invalid date or time format
+    INV_DTT_FRMT = :invdatefrmt
   end
 end
