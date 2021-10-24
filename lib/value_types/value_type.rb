@@ -4,6 +4,7 @@ require_relative '../utils/codes'
 require_relative './string/string_type'
 require_relative './numeric/numeric_type'
 require_relative './date/date_type'
+require_relative './other/other_type'
 
 class ValueType
   include Segmemts
@@ -18,6 +19,7 @@ class ValueType
     @str = StringType.new
     @num = NumericType.new
     @dtt = DateType.new
+    @otr = OtherType.new
   end
 
   def insp_value(line)
@@ -38,7 +40,7 @@ class ValueType
     when DTT
       @dtt.insp_dtt(line)
     else
-      [OK]
+      @otr.insp_otr(line)
     end
   end
 

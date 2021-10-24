@@ -30,15 +30,17 @@ module Patterns
     INTPREFIX = Regexp.new(/[xXoObB]/).freeze
     # Date Time
     DATETIME = Regexp.new(/^[\d\-:TZ]+\n*$/).freeze
+    # Boolean types
+    BOOLTYPE = %w[true false]
 
     def of_type(value)
+      return if value.nil?
+
       return Patterns::STR if QUOTES.match?(value)
 
       return Patterns::NUM if numeric?(value)
 
       return Patterns::DTT if date_time?(value)
-
-      Patterns::UNDEF
     end
 
     def numeric?(value)
