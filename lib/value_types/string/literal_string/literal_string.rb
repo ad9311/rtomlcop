@@ -12,7 +12,6 @@ class LiteralString
   end
 
   def insp_ls(line)
-    @last_code = OK
     incr_ls_lnum(line) if @last_code == OK
     concat_ls(line)
     arr_ls_resp(switch_mlls(@str))
@@ -72,7 +71,6 @@ class LiteralString
 
   def slls(str)
     return OK if empty_slls?(str)
-
     return @last_code = ls_minor_offnc(EXP_NL_LS) unless slls_closed?(str)
 
     insp_slls(str)

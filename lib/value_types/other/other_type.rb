@@ -30,7 +30,7 @@ class OtherType
 
   def parse_otr
     return OK if BOOLTYPE.include?(@otr) || @otr == "\n"
-   
+
     MinorOffence.new(@lnum, UNDEF)
   end
 

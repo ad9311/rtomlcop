@@ -31,7 +31,7 @@ module Patterns
     # Date Time
     DATETIME = Regexp.new(/^[\d\-:TZ]+\n*$/).freeze
     # Boolean types
-    BOOLTYPE = %w[true false]
+    BOOLTYPE = %w[true false].freeze
 
     def of_type(value)
       return if value.nil?

@@ -22,7 +22,7 @@ module LSUtils
   end
 
   def empty_slls?(str)
-    s_str = str.rstrip
+    s_str = str&.rstrip
     return true if s_str == EMSLLS
   end
 
