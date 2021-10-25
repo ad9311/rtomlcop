@@ -3,12 +3,12 @@ require_relative './patterns'
 module Segmemts
   include Patterns::Slices
 
-  def segment_line(line_pack, not_multi)
+  def segment_line(line_pack, on_multi)
     table = nil
     key = nil
     value = nil
-    if not_multi
-      table = table_segment(line_pack[1])
+    unless on_multi
+      table = remove_comment(table_segment(line_pack[1]))
       key = key_segment(line_pack[1])
       value = remove_comment(value_segment(line_pack[1]))
     end
@@ -36,7 +36,7 @@ module Segmemts
       quote = CLOSING_CHARS.include?(value[r_ind])
       if quote
         comment = value[r_ind + 1, value.size]
-        return new_value = value.split(comment)
+        return new_value = value.split(comment)[0]
       end
     end
     new_value
@@ -50,7 +50,10 @@ module Segmemts
 
   def key_segment(line)
     slice = line.slice(KEY)
-    slice&.lstrip
+    return if slice.nil?
+
+    key = slice.split('=')[0]
+    key&.strip
   end
 
   def value_segment(line)

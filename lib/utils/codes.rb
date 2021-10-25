@@ -2,6 +2,8 @@ module Codes
   module Status
     # No Error code
     OK = :ok
+    # Skip line
+    SKIP = :skip
     # Undefine Value code
     UNDEF = :undef
     # Tests
@@ -65,5 +67,10 @@ module Codes
 
     # Minor Offence: Invalid date or time format
     INV_DTT_FRMT = :invdatefrmt
+
+    # Tables & Keys
+
+    # Duplicate Table
+    DUP_TBLKEY = :duptblkey
   end
 end

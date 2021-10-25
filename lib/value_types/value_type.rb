@@ -1,4 +1,3 @@
-require_relative '../utils/segments'
 require_relative '../utils/patterns'
 require_relative '../utils/codes'
 require_relative './string/string_type'
@@ -7,7 +6,6 @@ require_relative './date/date_type'
 require_relative './other/other_type'
 
 class ValueType
-  include Segmemts
   include Patterns::ValueFormat
   include Codes::Status
   include Codes::TypeOf
@@ -22,7 +20,7 @@ class ValueType
     @otr = OtherType.new
   end
 
-  def insp_value(line)
+  def insp_val(line)
     @type = of_type(line.fetch(:value)) unless on_multi?(@last_code)
     resp = switch_type(line, @type)
     @last_code = resp.last
