@@ -1,7 +1,7 @@
 require_relative './utils/segments'
 require_relative './utils/codes'
 require_relative './value_types/value_type'
-require_relative './table/table_key_type'
+require_relative './table_key/table_key_type'
 
 class ReportCentral
   include Codes::Status
@@ -32,7 +32,7 @@ class ReportCentral
   end
 
   def call_insp(line)
-    # for_tbl_key(line) unless on_multi?
+    for_tbl_key(line) unless on_multi?
     for_val(line) if tbl_nil?(line)
   end
 

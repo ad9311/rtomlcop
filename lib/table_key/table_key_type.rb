@@ -12,7 +12,24 @@ class TableKeyType
     @offences = []
   end
 
-  def insp_tblkey(_line)
-    [SKIP]
+  def insp_tblkey(line)
+    switch_tbl_key_type(line)
+  end
+
+  private
+
+  def switch_tbl_key_type(line)
+    case table?(line)
+    when true
+      [:TABLE]
+    else
+      [:KEY]
+    end
+  end
+
+  def table?(line)
+    return true if line.fetch(:key).nil?
+
+    false
   end
 end
