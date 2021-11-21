@@ -2,4 +2,5 @@
 
 # Directories
 public/
-temp/
+tmp/
+.vscode/

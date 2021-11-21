@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require_relative '../lib/report_central'
 
-file = '/home/adiaz/Documents/GitHub/rtomlcop/public/sample.toml'
+file = '/home/ad9311/Documents/GitHub/rtomlcop/public/sample.toml'
 
 central = ReportCentral.new(file)
 central.scan
