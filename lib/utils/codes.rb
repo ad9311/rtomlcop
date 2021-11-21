@@ -70,7 +70,7 @@ module Codes
 
     # Tables & Keys
 
-    # Duplicate Table
-    DUP_TBLKEY = :duptblkey
+    # Minor Offence: Duplicate children in table array
+    DUP_CHLD = :dupchld
   end
 end

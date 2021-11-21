@@ -1,4 +1,8 @@
+require_relative '../utils/codes'
+
 class ArrayTableCollection
+  include Codes::Offence
+  include Codes::Status
   attr_reader :data
 
   def initialize(line)
@@ -22,7 +26,10 @@ class ArrayTableCollection
     related = collection.filter { |tbl| tbl.data.fetch(:path) == last.fetch(:parent) }
     return if related.empty?
 
-    puts true if related.last.data.fetch(:children).include?(last.fetch(:name))
+    present = related.last.data.fetch(:children).include?(last.fetch(:name))
+    return DUP_CHLD if present
+
+    OK
   end
 
   private
