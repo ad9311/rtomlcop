@@ -1,5 +1,5 @@
-require_relative '../utils/codes.rb'
-require_relative './array_table_collection.rb'
+require_relative '../utils/codes'
+require_relative './array_table_collection'
 
 class TableType
   include Codes::Status
@@ -11,8 +11,14 @@ class TableType
   end
 
   def insp_table(line)
-    @list << ArrayTableCollection.new(line) unless line.fetch(:table).nil?
-    p @list.last.add_child(line) unless line.fetch(:key).nil?
-    [TEST]
+    insp_nesting(line)
+  end
+
+  def insp_nesting(line)
+    unless line.fetch(:table).nil?
+      @list << ArrayTableCollection.new(line)
+      @list.last.insp_collection(@list)
+    end
+    @list.last.add_child(line) unless line.fetch(:key).nil?
   end
 end

@@ -1,7 +1,7 @@
 require_relative '../utils/segments'
 require_relative '../utils/codes'
 require_relative '../offence/major_offence'
-require_relative './table_type.rb'
+require_relative './table_type'
 
 class TableKeyType
   include Segmemts
@@ -15,5 +15,6 @@ class TableKeyType
 
   def insp_tblkey(line)
     @tbl.insp_table(line)
+    [TEST]
   end
 end

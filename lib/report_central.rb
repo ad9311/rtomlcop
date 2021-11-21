@@ -32,8 +32,8 @@ class ReportCentral
   end
 
   def call_insp(line)
-    # for_tbl_key(line) unless on_multi?
-    for_val(line) if tbl_nil?(line)
+    for_tbl_key(line) unless on_multi?
+    # for_val(line) if tbl_nil?(line)
   end
 
   private
