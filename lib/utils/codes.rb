@@ -70,6 +70,11 @@ module Codes
 
     # Tables & Keys
 
+    # Major Offence: Unclosed table or array of tables
+    UNCL_TBL = :uncltbl
+    # Major Offence: Extra bracket in table or array of tables
+    EXT_BRK = :extbrk
+
     # Minor Offence: Duplicate children in table array
     DUP_CHLD = :dupchld
   end

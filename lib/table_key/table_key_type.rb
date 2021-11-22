@@ -14,7 +14,7 @@ class TableKeyType
   end
 
   def insp_tblkey(line)
-    @tbl.insp_table(line)
-    [TEST]
+    tbl = @tbl.insp_table(line)
+    [*tbl]
   end
 end

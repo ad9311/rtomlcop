@@ -20,11 +20,11 @@ class ArrayTableCollection
   end
 
   def insp_collection(collection)
-    return if collection.empty?
+    return OK if collection.empty?
 
     last = collection.last.data
     related = collection.filter { |tbl| tbl.data.fetch(:path) == last.fetch(:parent) }
-    return if related.empty?
+    return OK if related.empty?
 
     present = related.last.data.fetch(:children).include?(last.fetch(:name))
     return DUP_CHLD if present
